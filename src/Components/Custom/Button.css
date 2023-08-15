@@ -1,0 +1,46 @@
+button {
+    padding: 15px 30px;
+    border-radius: 10px;
+    background: #064EBC;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    border: unset;
+    cursor: pointer;
+    color: #FFF;
+    text-align: center;
+    font-family: "Segoe UI";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.custom {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 52px;
+}
+
+.sreach-main {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+input:not([type="range"]):not([type="color"]) {
+    padding: 13px 49px 13px 14px;
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
+    border: #DFDFDF;
+}
+
+svg {
+    position: absolute;
+    right: 14px;
+}
+
+.custom-button {
+    margin-right: 20px;
+    cursor: pointer;
+}

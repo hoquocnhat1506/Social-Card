@@ -1,0 +1,40 @@
+.baby {
+    width: 310px;
+    height: 175px;
+}
+
+.main {
+    display: flex;
+    align-items: start;
+    margin-bottom: 15px;
+}
+
+.text {
+    margin-bottom: 15px;
+}
+
+.list-item {
+    display: flex;
+    gap: 88px;
+}
+
+.image img {
+    margin-right: 15px;
+}
+
+.icoin {
+    display: flex;
+    flex-direction: row;
+    gap: 17px;
+}
+
+.box-infor {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.content-main {
+    max-width: 310px;
+}
