@@ -1,23 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Button from "./Components/Custom/Button";
 import PageNotFound from "./Components/NotFound/PageNotFound";
 import Item from "./Components/Item/Item";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <div className="content">
-        <div className="title">LIST SOCIAL CARD</div>
-        <div className="custom">
-          <Button />
+    <Router>
+      <div className="App">
+        <div className="content">
+          <div className="title">LIST SOCIAL CARD</div>
+          <div className="custom">
+            <Button />
+          </div>
         </div>
-        <div className="not-found">
-          <Item />
-          <PageNotFound />
-        </div>
+        <Routes>
+          <Route path="/" element={<Item />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 

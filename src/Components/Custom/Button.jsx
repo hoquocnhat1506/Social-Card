@@ -1,11 +1,115 @@
 import React from "react";
 import "./Button.css";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
 
 function Button() {
+  let subtitle;
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    subtitle.style.color = "#f00";
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   return (
     <div className="custom">
       <div className="custom-button">
-        <button>Add new</button>
+        <button onClick={openModal}>Add new</button>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <div className="box-modal">
+            <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Add new card</h2>
+            <form>
+              <div className="avatar">
+                <div>
+                  Avatar <span>*</span>
+                </div>
+                <input
+                  type="file"
+                  id="avatarInput"
+                  accept="image/*"
+                  style={{ opacity: "0" }}
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="19.997"
+                  viewBox="0 0 20 19.997"
+                >
+                  <path
+                    id="upload-solid"
+                    d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
+                    transform="translate(0 -0.075)"
+                    fill="#064ebc"
+                  />
+                </svg>
+                <div className="upload">Upload image</div>
+              </div>
+              <div className="name">
+                <div>
+                  Name <span>*</span>
+                </div>
+                <input />
+              </div>
+              <div className="des">
+                <div>
+                  Description <span>*</span>
+                </div>
+                <input />
+              </div>
+              <div className="avatar">
+                <div>Image</div>
+                <input
+                  type="file"
+                  id="avatarInput"
+                  accept="image/*"
+                  style={{ opacity: "0" }}
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="19.997"
+                  viewBox="0 0 20 19.997"
+                >
+                  <path
+                    id="upload-solid"
+                    d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
+                    transform="translate(0 -0.075)"
+                    fill="#064ebc"
+                  />
+                </svg>
+                <div className="upload">Upload image</div>
+              </div>
+            </form>
+            <div className="button-form">
+              <button>Save</button>
+              <button onClick={closeModal}>Cancel</button>
+            </div>
+          </div>
+        </Modal>
       </div>
       <div className="custom-search">
         <div className="sreach-main">
