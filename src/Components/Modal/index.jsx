@@ -145,7 +145,7 @@ function Button() {
               </div>
               <div className={styles.icoin}>
                 <img src="image/Pen.svg" alt="" />
-                <img src="image/Bin.svg" alt="" />
+                <img onClick={deleteModal} src="image/Bin.svg" alt="" />
               </div>
             </div>
           </div>
