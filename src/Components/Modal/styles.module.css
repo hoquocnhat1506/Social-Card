@@ -12,6 +12,7 @@ button {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    margin-right: 20px;
 }
 
 .ReactModal__Content {
@@ -35,17 +36,58 @@ button {
     margin-bottom: 40px;
 }
 
-.avatar {
-    /* padding-bottom: 27px; */
+.list-item {
+    display: flex;
+    padding: 0 110px;
+    gap: 88px;
+}
+
+.content-main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 15px;
+}
+
+.styles.img {
+    width: 310px;
+    height: 175px;
+
+}
+
+.icoin {
+    display: flex;
+    gap: 17px;
+
+}
+
+.main {
+    display: flex;
+}
+
+.image {
+    margin-right: 15px;
+}
+
+.box-infor {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .avatar,
+.name,
+.des {
+    display: flex;
+}
+
+/* .avatar,
 .name,
 .des,
 .image {
     display: flex;
     align-items: center;
-}
+} */
 
 .avatar div,
 .name div,
@@ -121,9 +163,16 @@ form {
 
 .custom {
     display: flex;
+    flex-direction: column;
+    margin-bottom: 52px;
+}
+
+.nav-main {
+    display: flex;
     justify-content: end;
     align-items: center;
     margin-bottom: 52px;
+    margin-right: 80px;
 }
 
 .sreach-main {

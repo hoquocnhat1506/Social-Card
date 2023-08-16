@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import "./App.css";
-import Button from "./Components/Custom/Button";
-import PageNotFound from "./Components/NotFound/PageNotFound";
-import Item from "./Components/Item/Item";
-import CardDetail from "./Components/Card/CardDetail";
+import Button from "./Components/Modal";
+import PageNotFound from "./Components/NotFound";
+import Delete from "./Components/DeleteCard";
+// import Item from "./Components/Item/index";
+// import CardDetail from "./Components/CardDetail";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -12,13 +13,12 @@ function App() {
       <div className="App">
         <div className="content">
           <div className="title">LIST SOCIAL CARD</div>
-          <div className="custom">
-            <Button />
-          </div>
+          <div className="custom">{/* <Button /> */}</div>
           {/* <CardDetail /> */}
+          {<Delete />}
         </div>
         <Routes>
-          <Route path="/" element={<Item />} />
+          <Route path="/" element={<Button />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </div>

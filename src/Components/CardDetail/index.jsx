@@ -1,5 +1,5 @@
 import React from "react";
-import Elephent from "./img/Elephent.svg";
+// import Elephent from "./img/Elephent.svg";
 
 function CardDetail() {
   return (
@@ -8,9 +8,7 @@ function CardDetail() {
         <div>SOCIAL CARD DETAIL</div>
       </div>
       <div className="card-image">
-        <div className="image">
-          <img src={Elephent} alt="" />
-        </div>
+        <div className="image">{/* <img src={Elephent} alt="" /> */}</div>
         <div className="card-name">
           <div className="name">Binance</div>
           <div className="date">22/04/2021 (day create)</div>
