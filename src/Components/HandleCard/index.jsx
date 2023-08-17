@@ -13,7 +13,7 @@ const customStyles = {
     padding: "0",
   },
 };
-
+//Delete
 function Delete() {
   let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -29,6 +29,7 @@ function Delete() {
   function closeModal() {
     setIsOpen(false);
   }
+
   return (
     <div className={styles.custom}>
       <div className={styles["nav-main"]}>
@@ -68,7 +69,7 @@ function Delete() {
                   </div>
                   <div className={styles.icoin}>
                     <img src="image/Pen.svg" alt="" />
-                    <img src="image/Bin.svg" alt="" />
+                    <img onClick={deleteModal} src="image/Bin.svg" alt="" />
                   </div>
                 </div>
               </div>
@@ -90,7 +91,7 @@ function Delete() {
                   </div>
                   <div className={styles.icoin}>
                     <img src="image/Pen.svg" alt="" />
-                    <img src="image/Bin.svg" alt="" />
+                    <img onClick={deleteModal} src="image/Bin.svg" alt="" />
                   </div>
                 </div>
               </div>

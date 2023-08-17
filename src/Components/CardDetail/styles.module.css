@@ -35,9 +35,11 @@
 }
 .icoin-tym img {
   margin-right: 5px;
+  cursor: pointer;
 }
 .icoin-message img {
   margin-right: 7px;
+  cursor: pointer;
 }
 .content {
   margin: 0 106px 29px 100px;
@@ -64,4 +66,36 @@
 }
 .boxinput {
   padding: 20px 690px 113px 20px;
+}
+
+.post input:not([type="range"]):not([type="color"]) {
+  padding: 20px 690px 113px 20px;
+}
+.post div {
+  text-align: left;
+  font: normal normal 600 18px/24px "Segoe UI";
+  letter-spacing: 0px;
+  opacity: 1;
+  margin-bottom: 15px;
+  text-align: left;
+  color: #ffffff;
+}
+.button {
+  padding: 13px 25px;
+  margin-bottom: 0 !important;
+}
+.post button {
+  background: #064ebc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 10px;
+  opacity: 1;
+  padding: 0;
+  margin-right: 0 !important;
+  position: absolute;
+  top: 126px;
+  right: 278px;
+}
+.post {
+  position: relative;
+  margin-left: 183px;
 }

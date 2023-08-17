@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react"; // Import useState from React
 import styles from "./styles.module.css";
 
 function CardDetail() {
+  const [count, setCount] = useState(1);
+
+  const increaseCount = () => {
+    setCount(count + 1);
+  };
   return (
     <div className={styles.card}>
       <div className={styles["card-title"]}>
@@ -36,8 +41,8 @@ function CardDetail() {
           </div>
           <div className={styles["icoin-detail"]}>
             <div className={styles["icoin-tym"]}>
-              <img src="image/Heart.svg" alt="" />
-              <div>1</div>
+              <img onClick={increaseCount} src="image/Heart.svg" alt="" />{" "}
+              {count}
             </div>
             <div className={styles["icoin-message"]}>
               <img src="image/Message.svg" alt="" />
@@ -69,14 +74,14 @@ function CardDetail() {
             </div>
 
             <div className={styles.post}>
-              <div>Post a new coment</div>
+              <div className={styles.postmain}>Post a new coment</div>
               <input
                 className={styles.boxinput}
                 type="text"
                 placeholder="Add comment..."
               />
               <button type="submit">
-                <div>Post</div>
+                <div className={styles.button}>Post</div>
               </button>
             </div>
           </div>

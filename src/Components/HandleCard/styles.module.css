@@ -76,4 +76,8 @@ h2 {
 .icoin {
   display: flex;
   gap: 17px;
+  height: fit-content;
+}
+.icoin img {
+  cursor: pointer;
 }
