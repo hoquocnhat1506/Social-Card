@@ -1,0 +1,101 @@
+.card-title {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 41px;
+  font: normal normal bold 35px/47px "Segoe UI";
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+}
+.card-main {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+.card-name {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.card-text {
+  margin-bottom: 20px;
+}
+
+.icoin-detail {
+  display: flex;
+  margin-bottom: 29px;
+}
+.icoin-tym,
+.icoin-message {
+  display: flex;
+}
+.icoin-tym {
+  margin-right: 25px;
+}
+.icoin-tym img {
+  margin-right: 5px;
+  cursor: pointer;
+}
+.icoin-message img {
+  margin-right: 7px;
+  cursor: pointer;
+}
+.content {
+  margin: 0 106px 29px 100px;
+  opacity: 1;
+}
+.card-image-main {
+  margin-left: 155px;
+}
+.text {
+  padding: 30px 0 30px;
+  border-top: 1px solid #d9d9d9;
+  border-bottom: 1px solid #d9d9d9;
+  margin-bottom: 30px;
+}
+.text-main {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.boxinput {
+  padding: 20px 690px 113px 20px;
+}
+
+.post input:not([type="range"]):not([type="color"]) {
+  padding: 20px 690px 113px 20px;
+}
+.post div {
+  text-align: left;
+  font: normal normal 600 18px/24px "Segoe UI";
+  letter-spacing: 0px;
+  opacity: 1;
+  margin-bottom: 15px;
+  text-align: left;
+  color: #ffffff;
+}
+.button {
+  padding: 13px 25px;
+  margin-bottom: 0 !important;
+}
+.post button {
+  background: #064ebc 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 10px;
+  opacity: 1;
+  padding: 0;
+  margin-right: 0 !important;
+  position: absolute;
+  top: 126px;
+  right: 278px;
+}
+.post {
+  position: relative;
+  margin-left: 183px;
+}

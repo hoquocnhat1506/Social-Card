@@ -6,6 +6,7 @@ import Delete from "./Components/HandleCard";
 import CardDetail from "./Components/CardDetail";
 import EditItem from "./Components/Edit";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ParentComponent from "./Components/EditDelete"; // Correct the import path
 
 function App() {
   return (
@@ -17,8 +18,9 @@ function App() {
         <Route path="/Detail" element={<CardDetail />} />
         <Route path="/Delete" element={<Delete />} />
         <Route path="/Edit" element={<EditItem />} />
+        <Route path="/EditDelete" element={<ParentComponent />} />
       </Routes>
-      {<Delete />}
+      <ParentComponent />
     </Router>
   );
 }

@@ -37,7 +37,7 @@ function Button() {
       </div>
       <div className={styles["nav-main"]}>
         <div className={styles["custom-button"]}>
-          <button onClick={openModal}>Add new</button>  
+          <button onClick={openModal}>Add new</button>
           <Modal
             isOpen={modalIsOpen}
             onAfterOpen={afterOpenModal}

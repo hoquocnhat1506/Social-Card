@@ -18,9 +18,9 @@ function Delete() {
   let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  function deleteModal() {
-    setIsOpen(true);
-  }
+  // function deleteModal() {
+  //   setIsOpen(true);
+  // }
 
   function afterOpenModal() {
     subtitle.style.color = "#f00";
@@ -34,7 +34,27 @@ function Delete() {
     <div className={styles.custom}>
       <div className={styles["nav-main"]}>
         <div className={styles["custom-button"]}>
-          <div className={styles["list-item"]}>
+          <div className="delete-main">
+            <div className={styles["box-title"]}>
+              <h2 ref={(_subtitle) => (subtitle = _subtitle)}>
+                <div>Your about to delete a item</div>
+              </h2>
+              <form>
+                <div className={styles.image}>
+                  <img src="image/Trash.svg" alt="" />
+                  <div className={styles.notice}>
+                    This will delete your item form list <br /> Are you sure?
+                  </div>
+                </div>
+                <div className={styles["button-form"]}>
+                  <button>Delete</button>
+                  <button onClick={closeModal}>Cancel</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {/* <div className={styles["list-item"]}>
             <div className={styles["content-main"]}>
               <div className={styles.main}>
                 <div className={styles.image}>
@@ -102,7 +122,7 @@ function Delete() {
               </div>
               <img className={styles.img} src="image/Elephent.svg" alt="" />
             </div>
-          </div>
+          </div> */}
 
           {/* <button onClick={deleteModal}>Delete</button> */}
           <Modal
@@ -111,27 +131,7 @@ function Delete() {
             onRequestClose={closeModal}
             style={customStyles}
             contentLabel="Example Modal"
-          >
-            <div className="delete-main">
-              <div className={styles["box-title"]}>
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>
-                  <div>Your about to delete a item</div>
-                </h2>
-                <form>
-                  <div className={styles.image}>
-                    <img src="image/Trash.svg" alt="" />
-                    <div className={styles.notice}>
-                      This will delete your item form list <br /> Are you sure?
-                    </div>
-                  </div>
-                </form>
-                <div className={styles["button-form"]}>
-                  <button>Delete</button>
-                  <button onClick={closeModal}>Cancel</button>
-                </div>
-              </div>
-            </div>
-          </Modal>
+          ></Modal>
         </div>
       </div>
     </div>
