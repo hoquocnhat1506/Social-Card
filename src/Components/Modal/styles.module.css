@@ -150,6 +150,10 @@ input:not([type="range"]):not([type="color"]) {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   border: #dfdfdf;
 }
+input:not([type="range"]):not([type="color"])::before,
+input:not([type="range"]):not([type="color"])::after {
+  border: 1px solid red;
+}
 
 .avatar input {
   opacity: 0;

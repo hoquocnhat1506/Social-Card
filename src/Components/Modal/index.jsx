@@ -1,6 +1,9 @@
 import React from "react";
 import styles from "./styles.module.css";
 import Modal from "react-modal";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+const url = "https://api.cloudinary.com/v1_1/dvdmubcjl/image/upload";
 
 const customStyles = {
   content: {
@@ -15,6 +18,29 @@ const customStyles = {
 };
 
 function Button() {
+  const [selectedFiles, setSelectedFiles] = React.useState([]);
+
+  const uploadFile = (e) => {
+    e.preventDefault();
+
+    let filesCopy = selectedFiles.slice();
+
+    console.log({ selectedFiles });
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      let formData = new FormData();
+      let file = selectedFiles[i];
+      console.log({ file });
+      formData.append("file", file);
+      formData.append("upload_preset", "fbl82nnu");
+
+      axios.post(url, formData).then((res) => {
+        console.log(res.data);
+        setSelectedFiles([]);
+      });
+    }
+  };
+
   let subtitle;
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
@@ -29,6 +55,12 @@ function Button() {
   function closeModal() {
     setIsOpen(false);
   }
+
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   return (
     <div className={styles.custom}>
@@ -47,16 +79,33 @@ function Button() {
           >
             <div className={styles["box-modal"]}>
               <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Add new card</h2>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.avatar}>
                   <div>
                     Avatar <span>*</span>
                   </div>
                   <input
+                    onSubmit={uploadFile}
                     type="file"
                     id="avatarInput"
                     accept="image/*"
                     style={{ opacity: "0" }}
+                    onChange={(e) => {
+                      let newFilesArray = [];
+                      let { files } = e.target;
+
+                      console.log(files);
+
+                      let length = files.length;
+                      for (let i = 0; i < length; i++) {
+                        let currentFile = files[i];
+                        newFilesArray.push(currentFile);
+                        console.log({ currentFile });
+                      }
+
+                      setSelectedFiles(newFilesArray);
+                    }}
+                    multiple
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -77,21 +126,46 @@ function Button() {
                   <div>
                     Name <span>*</span>
                   </div>
-                  <input />
+                  <input
+                    type="text"
+                    id="notice1"
+                    {...register("notice1", { required: true })}
+                  />
                 </div>
                 <div className={styles.des}>
                   <div>
                     Description <span>*</span>
                   </div>
-                  <input />
+                  <input
+                    type="text"
+                    id="notice2"
+                    {...register("notice2", { required: true })}
+                  />
                 </div>
                 <div className={styles.avatar}>
                   <div>Image</div>
                   <input
+                    onSubmit={uploadFile}
                     type="file"
                     id="avatarInput"
                     accept="image/*"
                     style={{ opacity: "0" }}
+                    onChange={(e) => {
+                      let newFilesArray = [];
+                      let { files } = e.target;
+
+                      console.log(files);
+
+                      let length = files.length;
+                      for (let i = 0; i < length; i++) {
+                        let currentFile = files[i];
+                        newFilesArray.push(currentFile);
+                        console.log({ currentFile });
+                      }
+
+                      setSelectedFiles(newFilesArray);
+                    }}
+                    multiple
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -108,11 +182,11 @@ function Button() {
                   </svg>
                   <div className={styles.upload}>Upload image</div>
                 </div>
+                <div className={styles["button-form"]}>
+                  <button type="submit">Save</button>
+                  <button onClick={closeModal}>Cancel</button>
+                </div>
               </form>
-              <div className={styles["button-form"]}>
-                <button>Save</button>
-                <button onClick={closeModal}>Cancel</button>
-              </div>
             </div>
           </Modal>
         </div>

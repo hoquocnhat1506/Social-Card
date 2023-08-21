@@ -39,8 +39,6 @@ function ParentComponent() {
   }
   return (
     <div>
-      {/* <button onClick={openEditModal}>Open Edit Modal</button> */}
-      {/* <button onClick={openDeleteModal}>Open Delete Modal</button> */}
       <div className={styles["list-item"]}>
         <div className={styles["content-main"]}>
           <div className={styles.main}>
