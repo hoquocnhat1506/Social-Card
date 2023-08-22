@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import EditItem from "../Edit"; // Adjusted path for EditItem
-import Delete from "../HandleCard"; // Adjusted path for Delete
+import Delete from "../DeleteCard"; // Adjusted path for Delete
 import styles from "./styles.module.css";
 
 const customStyles = {
@@ -16,19 +15,8 @@ const customStyles = {
   },
 };
 
-function ParentComponent() {
-  let subtitle;
-
-  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+function ListCard() {
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
-
-  function openEditModal() {
-    setEditModalIsOpen(true);
-  }
-
-  function closeEditModal() {
-    setEditModalIsOpen(false);
-  }
 
   function openDeleteModal() {
     setDeleteModalIsOpen(true);
@@ -51,7 +39,7 @@ function ParentComponent() {
                 <div className={styles.date}>14/08/2023</div>
               </div>
               <div className={styles.icoin}>
-                <img onClick={openEditModal} src="image/Pen.svg" alt="" />
+                <img src="image/Pen.svg" alt="" />
                 <img onClick={openDeleteModal} src="image/Bin.svg" alt="" />
               </div>
             </div>
@@ -73,7 +61,7 @@ function ParentComponent() {
                 <div className={styles.date}>14/08/2023</div>
               </div>
               <div className={styles.icoin}>
-                <img onClick={openEditModal} src="image/Pen.svg" alt="" />
+                <img src="image/Pen.svg" alt="" />
                 <img onClick={openDeleteModal} src="image/Bin.svg" alt="" />
               </div>
             </div>
@@ -95,7 +83,7 @@ function ParentComponent() {
                 <div className={styles.date}>14/08/2023</div>
               </div>
               <div className={styles.icoin}>
-                <img onClick={openEditModal} src="image/Pen.svg" alt="" />
+                <img src="image/Pen.svg" alt="" />
                 <img onClick={openDeleteModal} src="image/Bin.svg" alt="" />
               </div>
             </div>
@@ -108,14 +96,7 @@ function ParentComponent() {
           <img className={styles.img} src="image/Elephent.svg" alt="" />
         </div>
       </div>
-      <Modal
-        isOpen={editModalIsOpen}
-        onRequestClose={closeEditModal}
-        style={customStyles}
-        contentLabel="Edit Modal"
-      >
-        <EditItem closeModal={closeEditModal} />
-      </Modal>
+
       <Modal
         isOpen={deleteModalIsOpen}
         onRequestClose={closeDeleteModal}
@@ -127,4 +108,4 @@ function ParentComponent() {
     </div>
   );
 }
-export default ParentComponent;
+export default ListCard;
