@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./styles.module.css";
 import Modal from "react-modal";
 import { useForm } from "react-hook-form";
@@ -18,12 +18,14 @@ const customStyles = {
 };
 
 function Button() {
-  const [selectedFiles, setSelectedFiles] = React.useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedAvatar1PictureFiles, setSelectedAvatar1PictureFiles] =
+    useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [cards, setCards] = useState([]);
 
   const uploadFile = (e) => {
     e.preventDefault();
-
-    let filesCopy = selectedFiles.slice();
 
     console.log({ selectedFiles });
 
@@ -42,7 +44,6 @@ function Button() {
   };
 
   let subtitle;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
 
   function openModal() {
     setIsOpen(true);
@@ -59,7 +60,15 @@ function Button() {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    const newCard = {
+      avatar: selectedFiles[0],
+      name: data.notice1,
+      description: data.notice2,
+      picture: selectedFiles[1],
+      avatar1Picture: selectedAvatar1PictureFiles[0],
+    };
+    setCards((prevCards) => [...prevCards, newCard]);
+    closeModal();
   };
 
   return (
@@ -142,12 +151,11 @@ function Button() {
                     {...register("notice2", { required: true })}
                   />
                 </div>
-                <div className={styles.avatar}>
+                <div className={styles.avatar1}>
                   <div>Image</div>
                   <input
-                    onSubmit={uploadFile}
                     type="file"
-                    id="avatarInput"
+                    id="avatar1Input"
                     accept="image/*"
                     style={{ opacity: "0" }}
                     onChange={(e) => {
@@ -163,7 +171,7 @@ function Button() {
                         console.log({ currentFile });
                       }
 
-                      setSelectedFiles(newFilesArray);
+                      setSelectedAvatar1PictureFiles(newFilesArray);
                     }}
                     multiple
                   />
@@ -207,6 +215,19 @@ function Button() {
             </svg>
           </div>
         </div>
+      </div>
+      <div className={styles["social-card"]}>
+        {cards.map((card, index) => (
+          <div key={index} className={styles["social-card"]}>
+            {card.avatar && <img src={card.avatar} alt="Avatar" />}
+            <h3>{card.name}</h3>
+            <p>{card.description}</p>
+            {card.picture && <img src={card.picture} alt="Picture" />}
+            {card.avatar1Picture && (
+              <img src={card.avatar1Picture} alt="Avatar1 Picture" />
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

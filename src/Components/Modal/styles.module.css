@@ -48,12 +48,14 @@ button {
 }
 
 .avatar,
+.avatar1,
 .name,
 .des {
   display: flex;
 }
 
 .avatar div,
+.avatar1 div,
 .name div,
 .des div,
 .image div {
@@ -64,12 +66,14 @@ button {
 }
 
 .avatar span,
+.avatar1 span,
 .name span,
 .des span {
   color: #f3115e;
 }
 
-.avatar div {
+.avatar div,
+.avatar1 div {
   margin-right: 46px;
   display: flex;
 }
@@ -84,17 +88,19 @@ button {
   margin-right: 0;
 }
 
-.avatar input {
+.avatar input,
+.avatar1 input {
   opacity: 0;
 }
 
-.avatar svg {
+.avatar svg,
+.avatar1 svg {
   position: absolute;
   left: 147px;
 }
 
 .avatar svg,
-.upload {
+.avatar1 svg .upload {
   cursor: pointer;
   z-index: 9;
 }
@@ -155,7 +161,8 @@ input:not([type="range"]):not([type="color"])::after {
   border: 1px solid red;
 }
 
-.avatar input {
+.avatar input,
+.avatar1 input {
   opacity: 0;
   z-index: 999;
   cursor: pointer;
