@@ -44,15 +44,12 @@ function Button() {
   };
 
   let subtitle;
-
   function openModal() {
     setIsOpen(true);
   }
-
   function afterOpenModal() {
     subtitle.style.color = "#f00";
   }
-
   function closeModal() {
     setIsOpen(false);
   }
@@ -70,7 +67,31 @@ function Button() {
     setCards((prevCards) => [...prevCards, newCard]);
     closeModal();
   };
+  //curent day
+  const current = new Date();
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
 
+  //open delete
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  function openDeleteModal() {
+    setDeleteModalIsOpen(true);
+  }
+
+  function closeDeleteModal() {
+    setDeleteModalIsOpen(false);
+  }
+
+  const onDeleteConfirm = () => {
+    closeDeleteModal();
+  };
+
+  const [file, setFile] = useState();
+  function handleChange(e) {
+    console.log(e.target.files);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
   return (
     <div className={styles.custom}>
       <div className="content">
@@ -216,15 +237,68 @@ function Button() {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={deleteModalIsOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        {modalIsOpen && <div className={styles["box-modal"]}></div>}
+        <div className={styles["nav"]}>
+          <div className={styles["custom-but"]}>
+            <div className="delete-main">
+              <div className={styles["box-title"]}>
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)}>
+                  <div>Your about to delete a item</div>
+                </h2>
+                <form>
+                  <div className={styles.image}>
+                    <img src="image/Trash.svg" alt="" />
+                    <div className={styles.notice}>
+                      This will delete your item form list <br /> Are you sure?
+                    </div>
+                  </div>
+                  <div className={styles["button-form"]}>
+                    <button onClick={onDeleteConfirm}>Delete</button>
+                    <button onClick={closeDeleteModal}>Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <Modal
+              isOpen={modalIsOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStyles}
+              contentLabel="Example Modal"
+            ></Modal>
+          </div>
+        </div>
+      </Modal>
+
       <div className={styles["social-card"]}>
         {cards.map((card, index) => (
-          <div key={index} className={styles["social-card"]}>
-            {card.avatar && <img src={card.avatar} alt="Avatar" />}
-            <h3>{card.name}</h3>
-            <p>{card.description}</p>
+          <div key={index} className={styles["content-main"]}>
+            <div className={styles.main}>
+              <div className={styles.image}>
+                {card.avatar && <img src={card.avatar} alt="Avatar" />}
+              </div>
+              <div className={styles["box-infor"]}>
+                <div className={styles.information}>
+                  <div className={styles.fullname}>{card.name}</div>
+                  <div className={styles.date}>{date}</div>
+                </div>
+                <div className={styles.icoin}>
+                  <img src="image/Pen.svg" alt="" />
+                  <img onClick={openDeleteModal} src="image/Bin.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div className={styles.text}>{card.description}</div>
             {card.picture && <img src={card.picture} alt="Picture" />}
             {card.avatar1Picture && (
-              <img src={card.avatar1Picture} alt="Avatar1 Picture" />
+              <img src={card.avatar1Picture} alt="Avatar1" />
             )}
           </div>
         ))}

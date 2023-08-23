@@ -120,7 +120,7 @@ button {
 }
 
 .image div {
-  margin-right: 58px;
+  text-align: center;
 }
 
 form {
@@ -200,4 +200,125 @@ svg {
 
 .avatar:last-child {
   padding-bottom: 27px;
+}
+.social-card {
+  display: flex;
+  gap: 28px;
+  padding: 0 100px;
+}
+.content-main {
+  padding: 22px 30px;
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.main {
+  display: flex;
+}
+.box-infor {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.image {
+  margin-right: 15px;
+}
+.information {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.icoin {
+  display: flex;
+  align-items: start;
+  gap: 17px;
+}
+.icoin img {
+  cursor: pointer;
+}
+h2 {
+  color: unset !important;
+  margin: 0;
+  font: normal normal bold 20px/27px "Segoe UI";
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
+  margin-bottom: 30px;
+}
+
+.box-title {
+  padding: 25px 45px;
+}
+
+.image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 16px;
+}
+
+.notice {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.button-form button {
+  padding: 13px 18px;
+  margin-right: 0;
+}
+
+.bton {
+  margin-right: 0 !important;
+}
+
+.button-form {
+  display: flex;
+  justify-content: end;
+  /* gap: 20px; */
+  padding-top: 20px;
+  border-top: 1px solid #d9d9d9;
+}
+
+.list-item {
+  display: flex;
+  padding: 0 110px;
+  gap: 88px;
+  justify-content: center;
+}
+
+.content-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 15px;
+  max-width: 310px;
+}
+
+.main {
+  display: flex;
+}
+
+.image {
+  margin-right: 15px;
+}
+
+.box-infor {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.icoin {
+  display: flex;
+  gap: 17px;
+  height: fit-content;
+}
+.icoin img {
+  cursor: pointer;
 }
