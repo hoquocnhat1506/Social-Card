@@ -75,16 +75,25 @@ function Button() {
 
   //open delete
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
-  function openDeleteModal() {
+  const [selectedDeleteIndex, setSelectedDeleteIndex] = useState(null);
+  function openDeleteModal(index) {
+    setSelectedDeleteIndex(index);
     setDeleteModalIsOpen(true);
   }
 
   function closeDeleteModal() {
     setDeleteModalIsOpen(false);
   }
-
+  //value delete
   const onDeleteConfirm = () => {
-    closeDeleteModal();
+    if (selectedDeleteIndex !== null) {
+      const updatedCards = cards.filter(
+        (_, index) => index !== selectedDeleteIndex
+      );
+      setCards(updatedCards);
+      setSelectedDeleteIndex(null);
+      closeDeleteModal();
+    }
   };
 
   const [file, setFile] = useState();
@@ -92,6 +101,7 @@ function Button() {
     console.log(e.target.files);
     setFile(URL.createObjectURL(e.target.files[0]));
   }
+
   return (
     <div className={styles.custom}>
       <div className="content">
@@ -271,7 +281,7 @@ function Button() {
               onAfterOpen={afterOpenModal}
               onRequestClose={closeModal}
               style={customStyles}
-              contentLabel="Example Modal"
+              contentLabel="Delete Modal"
             ></Modal>
           </div>
         </div>
@@ -291,7 +301,11 @@ function Button() {
                 </div>
                 <div className={styles.icoin}>
                   <img src="image/Pen.svg" alt="" />
-                  <img onClick={openDeleteModal} src="image/Bin.svg" alt="" />
+                  <img
+                    onClick={() => openDeleteModal(index)}
+                    src="image/Bin.svg"
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
