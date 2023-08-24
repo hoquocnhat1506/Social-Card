@@ -101,11 +101,11 @@ function Button() {
     }
   };
   //ipload img
-  // const [file, setFile] = useState();
-  // function handleChange(e) {
-  //   console.log(e.target.files);
-  //   setFile(URL.createObjectURL(e.target.files[0]));
-  // }
+  const [file, setFile] = useState();
+  function handleChange(e) {
+    console.log(e.target.files);
+    setFile(URL.createObjectURL(e.target.files[0]));
+  }
 
   return (
     <div className={styles.custom}>
@@ -138,22 +138,8 @@ function Button() {
                       type="file"
                       id="avatarInput"
                       accept="image/*"
-                      style={{ opacity: "1" }}
-                      onChange={(e) => {
-                        let newFilesArray = [];
-                        let { files } = e.target;
-
-                        console.log(files);
-
-                        let length = files.length;
-                        for (let i = 0; i < length; i++) {
-                          let currentFile = files[i];
-                          newFilesArray.push(currentFile);
-                          console.log({ currentFile });
-                        }
-
-                        setSelectedFiles(newFilesArray);
-                      }}
+                      style={{ opacity: "0" }}
+                      onChange={handleChange}
                       multiple
                       {...register("avatar", { required: true })}
                       className={
@@ -170,6 +156,11 @@ function Button() {
                       viewBox="0 0 20 19.997"
                     >
                       <path
+                        className={
+                          errors.avatar
+                            ? styles.invalidLabel
+                            : styles.validLabel
+                        }
                         id="upload-solid"
                         d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
                         transform="translate(0 -0.075)"
@@ -220,22 +211,7 @@ function Button() {
                     id="avatar1Input"
                     accept="image/*"
                     style={{ opacity: "0" }}
-                    onChange={(e) => {
-                      let newFilesArray = [];
-                      let { files } = e.target;
-
-                      console.log(files);
-
-                      let length = files.length;
-                      for (let i = 0; i < length; i++) {
-                        let currentFile = files[i];
-                        newFilesArray.push(currentFile);
-                        console.log({ currentFile });
-                      }
-
-                      setSelectedAvatar1PictureFiles(newFilesArray);
-                    }}
-                    multiple
+                    onChange={handleChange}
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -323,7 +299,9 @@ function Button() {
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
               <div className={styles.image}>
-                {card.avatar && <img src={card.avatar} alt="Avatar" />}
+                <img src={file} />
+
+                {/* {card.avatar && <img src={card.avatar} alt="Avatar" />} */}
               </div>
               <div className={styles["box-infor"]}>
                 <div className={styles.information}>
@@ -341,7 +319,11 @@ function Button() {
               </div>
             </div>
             <div className={styles.text}>{card.description}</div>
-            {card.picture && <img src={card.picture} alt="Picture" />}
+            <div className={styles.img}>
+              <img src={file} />
+            </div>
+            {/* {card.picture && <img src={card.picture} alt="Picture" />} */}
+
             {card.avatar1Picture && (
               <img src={card.avatar1Picture} alt="Avatar1" />
             )}
