@@ -18,6 +18,7 @@ const customStyles = {
 };
 
 function Button() {
+  //
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedAvatar1PictureFiles, setSelectedAvatar1PictureFiles] =
     useState([]);
@@ -54,7 +55,11 @@ function Button() {
     setIsOpen(false);
   }
 
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     const newCard = {
@@ -95,12 +100,12 @@ function Button() {
       closeDeleteModal();
     }
   };
-
-  const [file, setFile] = useState();
-  function handleChange(e) {
-    console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
-  }
+  //ipload img
+  // const [file, setFile] = useState();
+  // function handleChange(e) {
+  //   console.log(e.target.files);
+  //   setFile(URL.createObjectURL(e.target.files[0]));
+  // }
 
   return (
     <div className={styles.custom}>
@@ -120,66 +125,92 @@ function Button() {
             <div className={styles["box-modal"]}>
               <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Add new card</h2>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className={styles.avatar}>
-                  <div>
-                    Avatar <span>*</span>
-                  </div>
-                  <input
-                    onSubmit={uploadFile}
-                    type="file"
-                    id="avatarInput"
-                    accept="image/*"
-                    style={{ opacity: "0" }}
-                    onChange={(e) => {
-                      let newFilesArray = [];
-                      let { files } = e.target;
-
-                      console.log(files);
-
-                      let length = files.length;
-                      for (let i = 0; i < length; i++) {
-                        let currentFile = files[i];
-                        newFilesArray.push(currentFile);
-                        console.log({ currentFile });
-                      }
-
-                      setSelectedFiles(newFilesArray);
-                    }}
-                    multiple
-                  />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="19.997"
-                    viewBox="0 0 20 19.997"
+                <div>
+                  <div
+                    className={
+                      errors.avatar ? styles.invalidLabel : styles.validLabel
+                    }
                   >
-                    <path
-                      id="upload-solid"
-                      d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
-                      transform="translate(0 -0.075)"
-                      fill="#064ebc"
+                    <div className={styles.name}>
+                      Avatar <span>*</span>
+                    </div>
+                    <input
+                      type="file"
+                      id="avatarInput"
+                      accept="image/*"
+                      style={{ opacity: "1" }}
+                      onChange={(e) => {
+                        let newFilesArray = [];
+                        let { files } = e.target;
+
+                        console.log(files);
+
+                        let length = files.length;
+                        for (let i = 0; i < length; i++) {
+                          let currentFile = files[i];
+                          newFilesArray.push(currentFile);
+                          console.log({ currentFile });
+                        }
+
+                        setSelectedFiles(newFilesArray);
+                      }}
+                      multiple
+                      {...register("avatar", { required: true })}
+                      className={
+                        errors.avatar ? styles.invalidInput : styles.validInput
+                      }
                     />
-                  </svg>
-                  <div className={styles.upload}>Upload image</div>
+                    {errors.avatar && (
+                      <p className={styles.error}>{errors.avatar.message}</p>
+                    )}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="19.997"
+                      viewBox="0 0 20 19.997"
+                    >
+                      <path
+                        id="upload-solid"
+                        d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
+                        transform="translate(0 -0.075)"
+                        fill="#064ebc"
+                      />
+                    </svg>
+                    <div className={styles.upload}>Upload image</div>
+                  </div>
                 </div>
-                <div className={styles.name}>
-                  <div>
+                <div
+                  className={
+                    errors.notice1 ? styles.invalidLabel : styles.validLabel
+                  }
+                >
+                  <div className={styles.name}>
                     Name <span>*</span>
                   </div>
                   <input
                     type="text"
                     id="notice1"
                     {...register("notice1", { required: true })}
+                    className={
+                      errors.notice1 ? styles.invalidInput : styles.validInput
+                    }
                   />
                 </div>
-                <div className={styles.des}>
-                  <div>
+                <div
+                  className={
+                    errors.notice2 ? styles.invalidLabel : styles.validLabel
+                  }
+                >
+                  <div className={styles.des}>
                     Description <span>*</span>
                   </div>
                   <input
                     type="text"
                     id="notice2"
                     {...register("notice2", { required: true })}
+                    className={
+                      errors.notice2 ? styles.invalidInput : styles.validInput
+                    }
                   />
                 </div>
                 <div className={styles.avatar1}>
