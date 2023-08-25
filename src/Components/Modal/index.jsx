@@ -21,8 +21,7 @@ const customStyles = {
 function Button() {
   //
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [selectedAvatar1PictureFiles, setSelectedAvatar1PictureFiles] =
-    useState([]);
+  const [selectedAvatar1PictureFiles] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [cards, setCards] = useState([]);
 
@@ -91,6 +90,7 @@ function Button() {
   function closeDeleteModal() {
     setDeleteModalIsOpen(false);
   }
+
   //value delete
   const onDeleteConfirm = () => {
     if (selectedDeleteIndex !== null) {
@@ -102,6 +102,7 @@ function Button() {
       closeDeleteModal();
     }
   };
+
   //ipload img
   const [file1, setFile1] = useState();
   const [file2, setFile2] = useState();
@@ -122,6 +123,9 @@ function Button() {
   const filteredCards = cards.filter((card) =>
     card.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  //localstorage
+  localStorage.setItem("name", "Obaseki Nosa");
 
   return (
     <div className={styles.custom}>
@@ -153,7 +157,6 @@ function Button() {
                     <input
                       type="file"
                       id="avatarInput"
-                      accept="image/*"
                       style={{ opacity: "0" }}
                       onChange={handleFile1Change}
                       {...register("avatar", { required: true })}
@@ -161,7 +164,6 @@ function Button() {
                         errors.avatar ? styles.invalidInput : styles.validInput
                       }
                     />
-
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -222,10 +224,10 @@ function Button() {
                   <input
                     type="file"
                     id="avatar1Input"
-                    accept="image/*"
+                    // accept="image/*"
                     style={{ opacity: "0" }}
                     onChange={handleFile2Change}
-                    multiple
+                    // multiple
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -342,7 +344,6 @@ function Button() {
             </div>
           </div>
         ))}
-        {/* {filteredCards.length === 0 && <PageNotFound />} */}
       </div>
     </div>
   );

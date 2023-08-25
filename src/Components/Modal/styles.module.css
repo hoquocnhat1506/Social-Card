@@ -126,6 +126,7 @@ button {
 
 .image div {
   text-align: center;
+  margin-top: 16px;
 }
 
 form {
@@ -154,11 +155,12 @@ form {
   position: relative;
 }
 
-input:not([type="range"]):not([type="color"]) {
-  padding: 13px 49px 13px 14px;
+.sreach-main input:not([type="range"]):not([type="color"]) {
+  padding: 15px 273px 15px 20px;
   border-radius: 10px;
-  width: 100%;
+  width: 102px;
 }
+
 input:not([type="range"]):not([type="color"])::before,
 input:not([type="range"]):not([type="color"])::after {
   border: 1px solid red;
@@ -171,12 +173,20 @@ input:not([type="range"]):not([type="color"])::after {
   cursor: pointer;
   width: 100%;
 }
+.sreach-main svg {
+  cursor: pointer;
+  margin-left: 211px;
+}
 
 svg {
   position: absolute;
-  left: 147px;
   cursor: pointer;
-  /* top: 103px; */
+  left: 147px;
+}
+.avatar1 svg {
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
 }
 
 .custom-button {
@@ -341,10 +351,16 @@ h2 {
 
 .invalidInput {
   border: 1px solid red;
+  padding: 13px 49px 13px 14px;
+  border-radius: 10px;
+  width: 100%;
 }
 
 .validInput {
   border: 1px solid;
+  padding: 13px 49px 13px 14px;
+  border-radius: 10px;
+  width: 100%;
 }
 .invalidLabel {
   color: red;
