@@ -72,6 +72,7 @@ function Button() {
     setCards((prevCards) => [...prevCards, newCard]);
     closeModal();
   };
+
   //curent day
   const current = new Date();
   const date = `${current.getDate()}/${
@@ -107,6 +108,12 @@ function Button() {
     setFile(URL.createObjectURL(e.target.files[0]));
   }
 
+  const [fileAvatar, setFileAvatar] = useState();
+  function handleChangeAvatar(e) {
+    console.log(e.target.files);
+    setFileAvatar(URL.createObjectURL(e.target.files[0]));
+  }
+
   return (
     <div className={styles.custom}>
       <div className="content">
@@ -139,16 +146,13 @@ function Button() {
                       id="avatarInput"
                       accept="image/*"
                       style={{ opacity: "0" }}
-                      onChange={handleChange}
-                      multiple
+                      onChange={handleChangeAvatar}
                       {...register("avatar", { required: true })}
                       className={
                         errors.avatar ? styles.invalidInput : styles.validInput
                       }
                     />
-                    {errors.avatar && (
-                      <p className={styles.error}>{errors.avatar.message}</p>
-                    )}
+
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -212,6 +216,7 @@ function Button() {
                     accept="image/*"
                     style={{ opacity: "0" }}
                     onChange={handleChange}
+                    multiple
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -299,14 +304,13 @@ function Button() {
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
               <div className={styles.image}>
-                <img src={file} />
-
+                <img src={fileAvatar} />
                 {/* {card.avatar && <img src={card.avatar} alt="Avatar" />} */}
               </div>
               <div className={styles["box-infor"]}>
                 <div className={styles.information}>
                   <div className={styles.fullname}>{card.name}</div>
-                  <div className={styles.date}>{date}</div>
+                  <div className={styles.date}>{date} (day create)</div>
                 </div>
                 <div className={styles.icoin}>
                   <img src="image/Pen.svg" alt="" />
@@ -323,10 +327,9 @@ function Button() {
               <img src={file} />
             </div>
             {/* {card.picture && <img src={card.picture} alt="Picture" />} */}
-
-            {card.avatar1Picture && (
+            {/* {card.avatar1Picture && (
               <img src={card.avatar1Picture} alt="Avatar1" />
-            )}
+            )} */}
           </div>
         ))}
       </div>
