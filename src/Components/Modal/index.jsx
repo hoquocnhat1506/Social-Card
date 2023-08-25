@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
 import Modal from "react-modal";
+import PageNotFound from "../NotFound";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 const url = "https://api.cloudinary.com/v1_1/dvdmubcjl/image/upload";
@@ -102,17 +103,25 @@ function Button() {
     }
   };
   //ipload img
-  const [file, setFile] = useState();
-  function handleChange(e) {
+  const [file1, setFile1] = useState();
+  const [file2, setFile2] = useState();
+
+  function handleFile1Change(e) {
     console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
+    setFile1(URL.createObjectURL(e.target.files[0]));
   }
 
-  const [fileAvatar, setFileAvatar] = useState();
-  function handleChangeAvatar(e) {
+  function handleFile2Change(e) {
     console.log(e.target.files);
-    setFileAvatar(URL.createObjectURL(e.target.files[0]));
+    setFile2(URL.createObjectURL(e.target.files[0]));
   }
+
+  //sreach
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredCards = cards.filter((card) =>
+    card.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className={styles.custom}>
@@ -146,7 +155,7 @@ function Button() {
                       id="avatarInput"
                       accept="image/*"
                       style={{ opacity: "0" }}
-                      onChange={handleChangeAvatar}
+                      onChange={handleFile1Change}
                       {...register("avatar", { required: true })}
                       className={
                         errors.avatar ? styles.invalidInput : styles.validInput
@@ -215,7 +224,7 @@ function Button() {
                     id="avatar1Input"
                     accept="image/*"
                     style={{ opacity: "0" }}
-                    onChange={handleChange}
+                    onChange={handleFile2Change}
                     multiple
                   />
                   <svg
@@ -243,7 +252,12 @@ function Button() {
         </div>
         <div className={styles["custom-search"]}>
           <div className={styles["sreach-main"]}>
-            <input type="text" placeholder="Search name..."></input>
+            <input
+              type="text"
+              placeholder="Search name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            ></input>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -300,12 +314,12 @@ function Button() {
       </Modal>
 
       <div className={styles["social-card"]}>
-        {cards.map((card, index) => (
+        {searchTerm && filteredCards.length === 0 && <PageNotFound />}
+        {filteredCards.map((card, index) => (
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
               <div className={styles.image}>
-                <img src={fileAvatar} />
-                {/* {card.avatar && <img src={card.avatar} alt="Avatar" />} */}
+                <img src={file1} />
               </div>
               <div className={styles["box-infor"]}>
                 <div className={styles.information}>
@@ -324,14 +338,11 @@ function Button() {
             </div>
             <div className={styles.text}>{card.description}</div>
             <div className={styles.img}>
-              <img src={file} />
+              <img src={file2} />
             </div>
-            {/* {card.picture && <img src={card.picture} alt="Picture" />} */}
-            {/* {card.avatar1Picture && (
-              <img src={card.avatar1Picture} alt="Avatar1" />
-            )} */}
           </div>
         ))}
+        {/* {filteredCards.length === 0 && <PageNotFound />} */}
       </div>
     </div>
   );

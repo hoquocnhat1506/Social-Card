@@ -1,10 +1,10 @@
 import React from "react";
-import "./style.module.css";
+import styles from "./styles.module.css";
 
 function PageNotFound() {
   return (
-    <div className="page">
-      <div className="page-not-found">
+    <div className={styles.page}>
+      <div className={styles["page-not-found"]}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="250"
