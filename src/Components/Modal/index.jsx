@@ -124,8 +124,35 @@ function Button() {
     card.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  //localstorage
-  localStorage.setItem("name", "Obaseki Nosa");
+  //edit
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editName, setEditName] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+
+  const openEditModal = (index) => {
+    const cardToEdit = filteredCards[index];
+    setEditingIndex(index);
+    setEditName(cardToEdit.name);
+    setEditDescription(cardToEdit.description);
+    setIsOpen(true);
+  };
+
+  const handleEditSubmit = (e) => {
+    e.preventDefault();
+    if (editingIndex !== null) {
+      const updatedCards = [...cards];
+      updatedCards[editingIndex] = {
+        ...updatedCards[editingIndex],
+        name: editName,
+        description: editDescription,
+      };
+      setCards(updatedCards);
+      closeModal();
+      setEditingIndex(null);
+      setEditName("");
+      setEditDescription("");
+    }
+  };
 
   return (
     <div className={styles.custom}>
@@ -280,7 +307,7 @@ function Button() {
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Delete Modal"
       >
         {modalIsOpen && <div className={styles["box-modal"]}></div>}
         <div className={styles["nav"]}>
@@ -314,7 +341,6 @@ function Button() {
           </div>
         </div>
       </Modal>
-
       <div className={styles["social-card"]}>
         {searchTerm && filteredCards.length === 0 && <PageNotFound />}
         {filteredCards.map((card, index) => (
@@ -329,7 +355,11 @@ function Button() {
                   <div className={styles.date}>{date} (day create)</div>
                 </div>
                 <div className={styles.icoin}>
-                  <img src="image/Pen.svg" alt="" />
+                  <img
+                    onClick={() => openEditModal(index)}
+                    src="image/Pen.svg"
+                    alt=""
+                  />
                   <img
                     onClick={() => openDeleteModal(index)}
                     src="image/Bin.svg"
@@ -345,6 +375,122 @@ function Button() {
           </div>
         ))}
       </div>
+      {/* edits */}
+      {editingIndex !== null && (
+        <Modal
+          isOpen={true}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel="Edit Modal"
+        >
+          <div className={styles["box-modal"]}>
+            <h2>Edit card</h2>
+            <form onSubmit={handleEditSubmit}>
+              <div className={styles.editcard}>
+                <div
+                  className={
+                    errors.avatar ? styles.invalidLabel : styles.validLabel
+                  }
+                >
+                  <div className={styles.name}>
+                    Avatar <span>*</span>
+                  </div>
+                  <input
+                    type="file"
+                    id="avatarInput"
+                    style={{ opacity: "0" }}
+                    onChange={handleFile1Change}
+                    {...register("avatar", { required: true })}
+                    className={
+                      errors.avatar ? styles.invalidInput : styles.validInput
+                    }
+                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="19.997"
+                    viewBox="0 0 20 19.997"
+                  >
+                    <path
+                      className={
+                        errors.avatar ? styles.invalidLabel : styles.validLabel
+                      }
+                      id="upload-solid"
+                      d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
+                      transform="translate(0 -0.075)"
+                      fill="#064ebc"
+                    />
+                  </svg>
+                  <div className={styles.upload}>Upload image</div>
+                </div>
+                <div
+                  className={
+                    errors.notice1 ? styles.invalidLabel : styles.validLabel
+                  }
+                >
+                  <div className={styles.name}>
+                    Name <span>*</span>
+                  </div>
+                  <input
+                    className={styles.validInput}
+                    type="text"
+                    id="notice1"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                  />
+                </div>
+                <div
+                  className={
+                    errors.notice2 ? styles.invalidLabel : styles.validLabel
+                  }
+                >
+                  <div className={styles.des}>
+                    Description <span>*</span>
+                  </div>
+                  <input
+                    className={styles.validInput}
+                    type="text"
+                    id="notice2"
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                  />
+                </div>
+                <div className={styles.avatar1}>
+                  <div>Image</div>
+                  <input
+                    type="file"
+                    id="avatar1Input"
+                    // accept="image/*"
+                    style={{ opacity: "0" }}
+                    onChange={handleFile2Change}
+                    // multiple
+                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="19.997"
+                    viewBox="0 0 20 19.997"
+                  >
+                    <path
+                      id="upload-solid"
+                      d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
+                      transform="translate(0 -0.075)"
+                      fill="#064ebc"
+                    />
+                  </svg>
+                  <div className={styles.upload}>Upload image</div>
+                </div>
+              </div>
+              <div className={styles["button-form"]}>
+                <button type="submit">Update</button>
+                <button onClick={closeModal}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </Modal>
+      )}
+      ;
     </div>
   );
 }
