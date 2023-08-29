@@ -27,19 +27,23 @@ function Button() {
 
   const uploadFile = (e) => {
     e.preventDefault();
-
     console.log({ selectedFiles });
+
+    const uploadedFiles = [];
 
     for (let i = 0; i < selectedFiles.length; i++) {
       let formData = new FormData();
       let file = selectedFiles[i];
-      console.log({ file });
+      // console.log({ file });
       formData.append("file", file);
-      formData.append("upload_preset", "fbl82nnu");
+      formData.append("upload_preset", "dnwiqvuth");
 
       axios.post(url, formData).then((res) => {
         console.log(res.data);
-        setSelectedFiles([]);
+        uploadedFiles.push(res.data.secure_url);
+        if (uploadedFiles.length === selectedFiles.length) {
+          setSelectedFiles(uploadedFiles);
+        }
       });
     }
   };
@@ -68,6 +72,8 @@ function Button() {
       description: data.notice2,
       picture: selectedFiles[1],
       avatar1Picture: selectedAvatar1PictureFiles[0],
+      avatarImageUrl: file1,
+      pictureImageUrl: file2,
     };
     setCards((prevCards) => [...prevCards, newCard]);
     closeModal();
@@ -108,7 +114,7 @@ function Button() {
   const [file2, setFile2] = useState();
 
   function handleFile1Change(e) {
-    console.log(e.target.files);
+    setSelectedFiles(e.target.files);
     setFile1(URL.createObjectURL(e.target.files[0]));
   }
 
@@ -119,7 +125,6 @@ function Button() {
 
   //sreach
   const [searchTerm, setSearchTerm] = useState("");
-
   const filteredCards = cards.filter((card) =>
     card.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -145,6 +150,8 @@ function Button() {
         ...updatedCards[editingIndex],
         name: editName,
         description: editDescription,
+        avatarImageUrl: file1,
+        pictureImageUrl: file2,
       };
       setCards(updatedCards);
       closeModal();
@@ -347,7 +354,9 @@ function Button() {
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
               <div className={styles.image}>
-                <img src={file1} />
+                <img src={card.avatarImageUrl} alt="" />
+                {/* <img src={file1} alt="" /> */}
+                {/* <img src={card.avatar} alt="avatar" /> */}
               </div>
               <div className={styles["box-infor"]}>
                 <div className={styles.information}>
@@ -370,7 +379,9 @@ function Button() {
             </div>
             <div className={styles.text}>{card.description}</div>
             <div className={styles.img}>
-              <img src={file2} />
+              <img src={card.pictureImageUrl} alt="" />
+              {/* <img src={file2} alt="" /> */}
+              {/* <img src={card.picture} alt="picture" /> */}
             </div>
           </div>
         ))}
@@ -461,7 +472,6 @@ function Button() {
                   <input
                     type="file"
                     id="avatar1Input"
-                    // accept="image/*"
                     style={{ opacity: "0" }}
                     onChange={handleFile2Change}
                     // multiple

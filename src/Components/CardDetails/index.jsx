@@ -15,17 +15,13 @@ const customStyles = {
 };
 
 function EditItem() {
+  //click  to count
   const [count, setCount] = useState(1);
-
   const increaseCount = () => {
     setCount(count + 1);
   };
   const subtitleRef = React.useRef(null);
   const [modalIsOpen, setIsOpen] = React.useState(false);
-
-  function editItem() {
-    setIsOpen(true);
-  }
 
   function afterOpenModal() {
     if (subtitleRef.current) {
