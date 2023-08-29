@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./styles.module.css";
 import Modal from "react-modal";
 import PageNotFound from "../NotFound";
@@ -19,11 +19,15 @@ const customStyles = {
 };
 
 function Button() {
-  //
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedAvatar1PictureFiles] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [cards, setCards] = useState([]);
+  useEffect(() => {
+    // Lấy danh sách cards từ localStorage khi component được render lần đầu
+    const savedCards = JSON.parse(localStorage.getItem("cards")) || [];
+    setCards(savedCards);
+  }, []);
 
   const uploadFile = (e) => {
     e.preventDefault();
@@ -58,7 +62,7 @@ function Button() {
   function closeModal() {
     setIsOpen(false);
   }
-
+  //localstorage and value
   const {
     register,
     handleSubmit,
@@ -67,15 +71,13 @@ function Button() {
 
   const onSubmit = (data) => {
     const newCard = {
-      avatar: selectedFiles[0],
       name: data.notice1,
       description: data.notice2,
-      picture: selectedFiles[1],
-      avatar1Picture: selectedAvatar1PictureFiles[0],
       avatarImageUrl: file1,
       pictureImageUrl: file2,
     };
     setCards((prevCards) => [...prevCards, newCard]);
+    localStorage.setItem("cards", JSON.stringify([...cards, newCard]));
     closeModal();
   };
 
