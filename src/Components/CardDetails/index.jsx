@@ -1,42 +1,95 @@
-import Modal from "react-modal";
 import styles from "./styles.module.css";
-import React, { useState } from "react";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    padding: "0",
-  },
-};
+import React, { useState, useEffect } from "react";
 
 function EditItem() {
-  //click  to count
-  const [count, setCount] = useState(1);
+  // Initialize state variables with local storage values or default values
+  const [count, setCount] = useState(() => {
+    const storedCount = localStorage.getItem("count");
+    return storedCount ? parseInt(storedCount) : 1;
+  });
+
+  const [comment, setComment] = useState(() => {
+    const storedComment = localStorage.getItem("comment");
+    return storedComment || "";
+  });
+
+  const [inputError, setInputError] = useState(() => {
+    const storedInputError = localStorage.getItem("inputError");
+    return storedInputError === "true"; // Convert the string to a boolean
+  });
+
+  const [comments, setComments] = useState(() => {
+    const storedComments = localStorage.getItem("comments");
+    return storedComments ? JSON.parse(storedComments) : [];
+  });
+
+  const [messageCount, setMessageCount] = useState(() => {
+    const storedMessageCount = localStorage.getItem("messageCount");
+    return storedMessageCount ? parseInt(storedMessageCount) : 0;
+  });
+
+  // Update local storage whenever state variables change
+  useEffect(() => {
+    localStorage.setItem("count", count.toString());
+  }, [count]);
+
+  useEffect(() => {
+    localStorage.setItem("comment", comment);
+  }, [comment]);
+
+  useEffect(() => {
+    localStorage.setItem("inputError", inputError.toString());
+  }, [inputError]);
+
+  useEffect(() => {
+    localStorage.setItem("comments", JSON.stringify(comments));
+  }, [comments]);
+
+  useEffect(() => {
+    localStorage.setItem("messageCount", messageCount.toString());
+  }, [messageCount]);
+
   const increaseCount = () => {
     setCount(count + 1);
   };
-  const subtitleRef = React.useRef(null);
-  const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  function afterOpenModal() {
-    if (subtitleRef.current) {
-      subtitleRef.current.style.color = "#f00";
+  const handleInputChange = (e) => {
+    setComment(e.target.value);
+    setInputError(false);
+  };
+
+  const handlePostClick = () => {
+    if (comment.trim() === "") {
+      setInputError(true);
+    } else {
+      // Add the new comment to the comments state
+      setComments([...comments, comment]);
+      // Increment the message count
+      setMessageCount(messageCount + 1);
+      // Reset the input and input error after posting
+      setComment("");
+      setInputError(false);
     }
-  }
+  };
 
-  function closeModal() {
-    setIsOpen(false);
-  }
+  const handleInputKeyPress = (e) => {
+    if (e.key === "Enter") {
+      // Prevent the default behavior of the "Enter" key (e.g., form submission)
+      e.preventDefault();
+      // Call the handlePostClick function to submit the comment
+      handlePostClick();
+    }
+  };
+
+  const current = new Date();
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
 
   return (
     <div>
       <div className={styles.card}>
-        <div ref={subtitleRef} className={styles["card-title"]}>
+        <div className={styles["card-title"]}>
           <div>SOCIAL CARD DETAIL</div>
         </div>
         <div className={styles["card-image"]}>
@@ -73,43 +126,32 @@ function EditItem() {
               </div>
               <div className={styles["icoin-message"]}>
                 <img src="image/Message.svg" alt="" />
-                <div>1</div>
+                <div>{messageCount}</div>
               </div>
             </div>
             <div className={styles["text-detail"]}>
               <div className={styles.text}>
-                <div className={styles["text-main"]}>
-                  <div className="date">22/04/2021 (day create)</div>
-                  <div className="text">
-                    It is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking at
-                    its layout. The point of using Lorem Ipsum is that it has a
-                    more- or-less normal distribution of letters, as opposed to
-                    using 'Content here, content here', making it look like
-                    readable English.
+                {comments.map((comment, index) => (
+                  <div className={styles["text-main"]} key={index}>
+                    <div className="date">{date} (day create)</div>
+                    <div className="text">{comment}</div>
                   </div>
-                </div>
-                <div className={styles["text-main"]}>
-                  <div className="date">22/04/2021 (day create)</div>
-                  <div className="text">
-                    It is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking at
-                    its layout. The point of using Lorem Ipsum is that it has a
-                    more- or-less normal distribution of letters, as opposed to
-                    using 'Content here, content here', making it look like
-                    readable English.
-                  </div>
-                </div>
+                ))}
               </div>
 
               <div className={styles.post}>
-                <div className={styles.postmain}>Post a new coment</div>
+                <div className={styles.postmain}>Post a new comment</div>
                 <input
-                  className={styles.boxinput}
+                  className={
+                    inputError ? styles.errorBoxInput : styles.boxinput
+                  }
                   type="text"
                   placeholder="Add comment..."
+                  value={comment}
+                  onChange={handleInputChange}
+                  onKeyPress={handleInputKeyPress}
                 />
-                <button type="submit">
+                <button type="submit" onClick={handlePostClick}>
                   <div className={styles.button}>Post</div>
                 </button>
               </div>
@@ -117,14 +159,6 @@ function EditItem() {
           </div>
         </div>
       </div>
-
-      <Modal
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      ></Modal>
     </div>
   );
 }
