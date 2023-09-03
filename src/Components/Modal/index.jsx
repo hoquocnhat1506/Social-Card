@@ -4,6 +4,8 @@ import Modal from "react-modal";
 import PageNotFound from "../NotFound";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 const url = "https://api.cloudinary.com/v1_1/dvdmubcjl/image/upload";
 
 const customStyles = {
@@ -19,20 +21,26 @@ const customStyles = {
 };
 
 function Button() {
+  const navigate = useNavigate();
+  const handleEditClick = () => {
+    navigate("/Edit");
+  };
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedAvatar1PictureFiles] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [cards, setCards] = useState([]);
+  const [selectedFileUrl, setSelectedFileUrl] = useState("");
+
   useEffect(() => {
     // Lấy danh sách cards từ localStorage khi component được render lần đầu
     const savedCards = JSON.parse(localStorage.getItem("cards")) || [];
     setCards(savedCards);
+    localStorage.setItem("cards", JSON.stringify(savedCards));
   }, []);
 
   const uploadFile = (e) => {
     e.preventDefault();
     console.log({ selectedFiles });
-
     const uploadedFiles = [];
 
     for (let i = 0; i < selectedFiles.length; i++) {
@@ -108,6 +116,8 @@ function Button() {
       setCards(updatedCards);
       setSelectedDeleteIndex(null);
       closeDeleteModal();
+
+      localStorage.setItem("cards", JSON.stringify(updatedCards));
     }
   };
 
@@ -260,11 +270,10 @@ function Button() {
                   <input
                     type="file"
                     id="avatar1Input"
-                    // accept="image/*"
                     style={{ opacity: "0" }}
                     onChange={handleFile2Change}
-                    // multiple
                   />
+
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -340,6 +349,7 @@ function Button() {
                 </form>
               </div>
             </div>
+
             <Modal
               isOpen={modalIsOpen}
               onAfterOpen={afterOpenModal}
@@ -355,13 +365,11 @@ function Button() {
         {filteredCards.map((card, index) => (
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
-              <div className={styles.image}>
-                <img src={card.avatarImageUrl} alt="" />
-                {/* <img src={file1} alt="" /> */}
-                {/* <img src={card.avatar} alt="avatar" /> */}
+              <div onClick={handleEditClick} className={styles.image}>
+                <img src={card.avatarImageUrl} alt="Card Avatar" />
               </div>
               <div className={styles["box-infor"]}>
-                <div className={styles.information}>
+                <div onClick={handleEditClick} className={styles.information}>
                   <div className={styles.fullname}>{card.name}</div>
                   <div className={styles.date}>{date} (day create)</div>
                 </div>
@@ -379,11 +387,11 @@ function Button() {
                 </div>
               </div>
             </div>
-            <div className={styles.text}>{card.description}</div>
-            <div className={styles.img}>
+            <div onClick={handleEditClick} className={styles.text}>
+              {card.description}
+            </div>
+            <div onClick={handleEditClick} className={styles.img}>
               <img src={card.pictureImageUrl} alt="" />
-              {/* <img src={file2} alt="" /> */}
-              {/* <img src={card.picture} alt="picture" /> */}
             </div>
           </div>
         ))}
@@ -476,7 +484,6 @@ function Button() {
                     id="avatar1Input"
                     style={{ opacity: "0" }}
                     onChange={handleFile2Change}
-                    // multiple
                   />
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
