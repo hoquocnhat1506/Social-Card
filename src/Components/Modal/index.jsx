@@ -373,7 +373,7 @@ function Button() {
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
               <div onClick={handleEditClick} className={styles.image}>
-                <img src={file1 || card.avatarImageUrl} alt="Avatar" />
+                <img src={card.avatarImageUrl} alt="Avatar" />
               </div>
               <div className={styles["box-infor"]}>
                 <div onClick={handleEditClick} className={styles.information}>
