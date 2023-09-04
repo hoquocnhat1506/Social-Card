@@ -403,3 +403,12 @@ h2 {
 .invalidText {
   color: red;
 }
+.head svg {
+  margin-top: 10px;
+}
+.head .upload {
+  margin-top: 10px;
+}
+.name {
+  margin-top: 10px;
+}

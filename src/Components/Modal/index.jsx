@@ -5,7 +5,6 @@ import PageNotFound from "../NotFound";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
 const url = "https://api.cloudinary.com/v1_1/dvdmubcjl/image/upload";
 
 const customStyles = {
@@ -36,6 +35,7 @@ function Button() {
     const savedCards = JSON.parse(localStorage.getItem("cards")) || [];
     setCards(savedCards);
     localStorage.setItem("cards", JSON.stringify(savedCards));
+    setFile1(savedCards[editingIndex]?.avatarImageUrl || "");
   }, []);
 
   const uploadFile = (e) => {
@@ -84,8 +84,9 @@ function Button() {
       avatarImageUrl: file1,
       pictureImageUrl: file2,
     };
-    setCards((prevCards) => [...prevCards, newCard]);
-    localStorage.setItem("cards", JSON.stringify([...cards, newCard]));
+    const updatedCards = [...cards, newCard];
+    setCards(updatedCards);
+    localStorage.setItem("cards", JSON.stringify(updatedCards));
     closeModal();
   };
 
@@ -106,7 +107,6 @@ function Button() {
   function closeDeleteModal() {
     setDeleteModalIsOpen(false);
   }
-
   //value delete
   const onDeleteConfirm = () => {
     if (selectedDeleteIndex !== null) {
@@ -126,8 +126,14 @@ function Button() {
   const [file2, setFile2] = useState();
 
   function handleFile1Change(e) {
-    setSelectedFiles(e.target.files);
-    setFile1(URL.createObjectURL(e.target.files[0]));
+    const selectedFile = e.target.files[0];
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    formData.append("upload_preset", "dnwiqvuth");
+
+    axios.post(url, formData).then((res) => {
+      setFile1(res.data.secure_url);
+    });
   }
 
   function handleFile2Change(e) {
@@ -166,6 +172,7 @@ function Button() {
         pictureImageUrl: file2,
       };
       setCards(updatedCards);
+      localStorage.setItem("cards", JSON.stringify(updatedCards));
       closeModal();
       setEditingIndex(null);
       setEditName("");
@@ -191,7 +198,7 @@ function Button() {
             <div className={styles["box-modal"]}>
               <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Add new card</h2>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
+                <div className={styles.head}>
                   <div
                     className={
                       errors.avatar ? styles.invalidLabel : styles.validLabel
@@ -366,7 +373,7 @@ function Button() {
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
               <div onClick={handleEditClick} className={styles.image}>
-                <img src={card.avatarImageUrl} alt="Card Avatar" />
+                <img src={file1 || card.avatarImageUrl} alt="Avatar" />
               </div>
               <div className={styles["box-infor"]}>
                 <div onClick={handleEditClick} className={styles.information}>

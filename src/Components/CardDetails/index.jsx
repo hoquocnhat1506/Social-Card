@@ -60,7 +60,7 @@ function EditItem() {
 
   const handlePostClick = () => {
     if (comment.trim() === "") {
-      setInputError(true);
+      setInputError(true); // Set inputError to true when comment is empty
     } else {
       // Add the new comment to the comments state
       setComments([...comments, comment]);
@@ -68,7 +68,7 @@ function EditItem() {
       setMessageCount(messageCount + 1);
       // Reset the input and input error after posting
       setComment("");
-      setInputError(false);
+      setInputError(false); // Set inputError back to false when successfully posted
     }
   };
 
@@ -143,7 +143,9 @@ function EditItem() {
                 <div className={styles.postmain}>Post a new comment</div>
                 <input
                   className={
-                    inputError ? styles.errorBoxInput : styles.boxinput
+                    inputError
+                      ? `${styles.boxinput} ${styles.errorBoxInput}` // Add the errorBoxInput class
+                      : styles.boxinput
                   }
                   type="text"
                   placeholder="Add comment..."

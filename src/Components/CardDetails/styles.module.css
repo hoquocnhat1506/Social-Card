@@ -99,3 +99,10 @@
   position: relative;
   margin-left: 183px;
 }
+.boxinput {
+  border: 1px solid black;
+}
+
+.errorBoxInput {
+  border-color: red;
+}
