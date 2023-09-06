@@ -70,7 +70,7 @@ function Button() {
   function closeModal() {
     setIsOpen(false);
   }
-  //localstorage and value
+  //localstorage and validate
   const {
     register,
     handleSubmit,
@@ -125,19 +125,16 @@ function Button() {
   const [file1, setFile1] = useState();
   const [file2, setFile2] = useState();
 
-  function handleFile1Change(e) {
-    const selectedFile = e.target.files[0];
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-    formData.append("upload_preset", "dnwiqvuth");
+  // console.log('file1: ', file1)
+  // console.log('file2: ', file2)
 
-    axios.post(url, formData).then((res) => {
-      setFile1(res.data.secure_url);
-    });
+  function handleFile1Change(e) {
+    console.log("handle file 1: ", e.target.files[0]);
+    setFile1(URL.createObjectURL(e.target.files[0]));
   }
 
   function handleFile2Change(e) {
-    console.log(e.target.files);
+    console.log("handle file 2: ", e.target.files[0]);
     setFile2(URL.createObjectURL(e.target.files[0]));
   }
 
@@ -207,16 +204,23 @@ function Button() {
                     <div className={styles.name}>
                       Avatar <span>*</span>
                     </div>
+
                     <input
                       type="file"
                       id="avatarInput"
-                      style={{ opacity: "0" }}
+                      style={{
+                        marginTop: "10px",
+                        opacity: "0",
+                        zIndex: "2",
+                        cursor: "pointer",
+                      }}
                       onChange={handleFile1Change}
-                      {...register("avatar", { required: true })}
-                      className={
-                        errors.avatar ? styles.invalidInput : styles.validInput
-                      }
+                      // {...register("avatar", { required: true })}
+                      // className={
+                      //   errors.avatar ? styles.invalidInput : styles.validInput
+                      // }
                     />
+
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -277,7 +281,7 @@ function Button() {
                   <input
                     type="file"
                     id="avatar1Input"
-                    style={{ opacity: "0" }}
+                    style={{ opacity: "0", cursor: "pointer" }}
                     onChange={handleFile2Change}
                   />
 
@@ -427,14 +431,11 @@ function Button() {
                   <input
                     type="file"
                     id="avatarInput"
-                    style={{ opacity: "0" }}
+                    style={{ opacity: "0", margin: "10px 0 0 0" }}
                     onChange={handleFile1Change}
-                    {...register("avatar", { required: true })}
-                    className={
-                      errors.avatar ? styles.invalidInput : styles.validInput
-                    }
                   />
                   <svg
+                    className={styles.svg}
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="19.997"
@@ -450,7 +451,7 @@ function Button() {
                       fill="#064ebc"
                     />
                   </svg>
-                  <div className={styles.upload}>Upload image</div>
+                  <div className={styles.uploads}>Upload image</div>
                 </div>
                 <div
                   className={

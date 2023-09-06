@@ -412,3 +412,17 @@ h2 {
 .name {
   margin-top: 10px;
 }
+.svg {
+  margin-top: 10px;
+}
+.uploads {
+  position: absolute;
+  left: 147px;
+  margin-right: 0;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 31px;
+}
+.errorLabel {
+  color: red;
+}
