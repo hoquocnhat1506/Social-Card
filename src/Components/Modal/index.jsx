@@ -31,7 +31,6 @@ function Button() {
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
   useEffect(() => {
-    // Lấy danh sách cards từ localStorage khi component được render lần đầu
     const savedCards = JSON.parse(localStorage.getItem("cards")) || [];
     setCards(savedCards);
     localStorage.setItem("cards", JSON.stringify(savedCards));
@@ -42,19 +41,20 @@ function Button() {
     e.preventDefault();
     console.log({ selectedFiles });
     const uploadedFiles = [];
-
     for (let i = 0; i < selectedFiles.length; i++) {
       let formData = new FormData();
       let file = selectedFiles[i];
-      // console.log({ file });
       formData.append("file", file);
       formData.append("upload_preset", "dnwiqvuth");
-
       axios.post(url, formData).then((res) => {
         console.log(res.data);
-        uploadedFiles.push(res.data.secure_url);
-        if (uploadedFiles.length === selectedFiles.length) {
-          setSelectedFiles(uploadedFiles);
+        if (res.data && res.data.secure_url) {
+          uploadedFiles.push(res.data.secure_url);
+          if (uploadedFiles.length === selectedFiles.length) {
+            setSelectedFiles(uploadedFiles);
+          }
+        } else {
+          console.error("Cloudinary upload failed:", res.data);
         }
       });
     }
@@ -63,6 +63,8 @@ function Button() {
   let subtitle;
   function openModal() {
     setIsOpen(true);
+    setFile1(null);
+    setFile2(null);
   }
   function afterOpenModal() {
     subtitle.style.color = "#f00";
@@ -116,26 +118,24 @@ function Button() {
       setCards(updatedCards);
       setSelectedDeleteIndex(null);
       closeDeleteModal();
-
       localStorage.setItem("cards", JSON.stringify(updatedCards));
     }
   };
 
   //ipload img
-  const [file1, setFile1] = useState();
-  const [file2, setFile2] = useState();
-
-  // console.log('file1: ', file1)
-  // console.log('file2: ', file2)
+  const [file1, setFile1] = useState("");
+  const [file2, setFile2] = useState("");
 
   function handleFile1Change(e) {
     console.log("handle file 1: ", e.target.files[0]);
     setFile1(URL.createObjectURL(e.target.files[0]));
+    setIsFileSelected(true);
   }
 
   function handleFile2Change(e) {
     console.log("handle file 2: ", e.target.files[0]);
     setFile2(URL.createObjectURL(e.target.files[0]));
+    setIsFileSelected(true);
   }
 
   //sreach
@@ -156,7 +156,7 @@ function Button() {
     setEditDescription(cardToEdit.description);
     setIsOpen(true);
   };
-
+  //edit
   const handleEditSubmit = (e) => {
     e.preventDefault();
     if (editingIndex !== null) {
@@ -176,6 +176,8 @@ function Button() {
       setEditDescription("");
     }
   };
+
+  const [isFileSelected, setIsFileSelected] = useState(false);
 
   return (
     <div className={styles.custom}>
@@ -198,7 +200,7 @@ function Button() {
                 <div className={styles.head}>
                   <div
                     className={
-                      errors.avatar ? styles.invalidLabel : styles.validLabel
+                      isFileSelected ? styles.validLabel : styles.invalidLabel
                     }
                   >
                     <div className={styles.name}>
@@ -215,12 +217,7 @@ function Button() {
                         cursor: "pointer",
                       }}
                       onChange={handleFile1Change}
-                      // {...register("avatar", { required: true })}
-                      // className={
-                      //   errors.avatar ? styles.invalidInput : styles.validInput
-                      // }
                     />
-
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -229,9 +226,9 @@ function Button() {
                     >
                       <path
                         className={
-                          errors.avatar
-                            ? styles.invalidLabel
-                            : styles.validLabel
+                          isFileSelected
+                            ? styles.validLabel
+                            : styles.invalidLabel
                         }
                         id="upload-solid"
                         d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
@@ -276,7 +273,11 @@ function Button() {
                     }
                   />
                 </div>
-                <div className={styles.avatar1}>
+                <div
+                  className={
+                    isFileSelected ? styles.validLabel : styles.invalidLabel
+                  }
+                >
                   <div>Image</div>
                   <input
                     type="file"
@@ -292,6 +293,9 @@ function Button() {
                     viewBox="0 0 20 19.997"
                   >
                     <path
+                      className={
+                        isFileSelected ? styles.validLabel : styles.invalidLabel
+                      }
                       id="upload-solid"
                       d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
                       transform="translate(0 -0.075)"
@@ -431,7 +435,12 @@ function Button() {
                   <input
                     type="file"
                     id="avatarInput"
-                    style={{ opacity: "0", margin: "10px 0 0 0" }}
+                    style={{
+                      opacity: "0",
+                      margin: "10px 0 0 0",
+                      zIndex: "9",
+                      cursor: "pointer",
+                    }}
                     onChange={handleFile1Change}
                   />
                   <svg
