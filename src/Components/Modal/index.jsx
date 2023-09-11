@@ -4,7 +4,8 @@ import Modal from "react-modal";
 import PageNotFound from "../NotFound";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { Link, useNavigate } from "react-router-dom";
 const url = "https://api.cloudinary.com/v1_1/dvdmubcjl/image/upload";
 
 const customStyles = {
@@ -20,10 +21,10 @@ const customStyles = {
 };
 
 function Button() {
-  const navigate = useNavigate();
-  const handleEditClick = () => {
-    navigate("/Edit");
-  };
+  // const navigate = useNavigate();
+  // const handleEditClick = () => {
+  //   navigate("/Edit");
+  // };
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedAvatar1PictureFiles] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -33,8 +34,6 @@ function Button() {
   useEffect(() => {
     const savedCards = JSON.parse(localStorage.getItem("cards")) || [];
     setCards(savedCards);
-    localStorage.setItem("cards", JSON.stringify(savedCards));
-    setFile1(savedCards[editingIndex]?.avatarImageUrl || "");
   }, []);
 
   const uploadFile = (e) => {
@@ -81,6 +80,7 @@ function Button() {
 
   const onSubmit = (data) => {
     const newCard = {
+      id: uuidv4(),
       name: data.notice1,
       description: data.notice2,
       avatarImageUrl: file1,
@@ -126,16 +126,29 @@ function Button() {
   const [file1, setFile1] = useState("");
   const [file2, setFile2] = useState("");
 
+  const [isFileSelectedAvatar, setIsFileSelectedAvatar] = useState(false);
+  const [isFileSelectedImage, setIsFileSelectedImage] = useState(false);
+
   function handleFile1Change(e) {
+    if (e.target.files.length > 0) {
+      setIsFileSelectedAvatar(true);
+    } else {
+      setIsFileSelectedAvatar(false);
+    }
     console.log("handle file 1: ", e.target.files[0]);
     setFile1(URL.createObjectURL(e.target.files[0]));
-    setIsFileSelected(true);
+    setIsFileSelectedAvatar(true);
   }
 
   function handleFile2Change(e) {
+    if (e.target.files.length > 0) {
+      setIsFileSelectedImage(true);
+    } else {
+      setIsFileSelectedImage(false);
+    }
     console.log("handle file 2: ", e.target.files[0]);
     setFile2(URL.createObjectURL(e.target.files[0]));
-    setIsFileSelected(true);
+    setIsFileSelectedImage(true);
   }
 
   //sreach
@@ -177,8 +190,6 @@ function Button() {
     }
   };
 
-  const [isFileSelected, setIsFileSelected] = useState(false);
-
   return (
     <div className={styles.custom}>
       <div className="content">
@@ -200,7 +211,9 @@ function Button() {
                 <div className={styles.head}>
                   <div
                     className={
-                      isFileSelected ? styles.validLabel : styles.invalidLabel
+                      isFileSelectedAvatar
+                        ? styles.validLabel
+                        : styles.invalidLabel
                     }
                   >
                     <div className={styles.name}>
@@ -217,6 +230,7 @@ function Button() {
                         cursor: "pointer",
                       }}
                       onChange={handleFile1Change}
+                      required
                     />
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -226,7 +240,7 @@ function Button() {
                     >
                       <path
                         className={
-                          isFileSelected
+                          isFileSelectedAvatar
                             ? styles.validLabel
                             : styles.invalidLabel
                         }
@@ -275,15 +289,23 @@ function Button() {
                 </div>
                 <div
                   className={
-                    isFileSelected ? styles.validLabel : styles.invalidLabel
+                    isFileSelectedImage
+                      ? styles.validLabel
+                      : styles.invalidLabel
                   }
                 >
                   <div>Image</div>
                   <input
                     type="file"
                     id="avatar1Input"
-                    style={{ opacity: "0", cursor: "pointer" }}
+                    style={{
+                      opacity: "0",
+                      cursor: "pointer",
+                      zIndex: "2",
+                      marginLeft: "57px ",
+                    }}
                     onChange={handleFile2Change}
+                    required
                   />
 
                   <svg
@@ -294,7 +316,9 @@ function Button() {
                   >
                     <path
                       className={
-                        isFileSelected ? styles.validLabel : styles.invalidLabel
+                        isFileSelectedImage
+                          ? styles.validLabel
+                          : styles.invalidLabel
                       }
                       id="upload-solid"
                       d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
@@ -380,11 +404,16 @@ function Button() {
         {filteredCards.map((card, index) => (
           <div key={index} className={styles["content-main"]}>
             <div className={styles.main}>
-              <div onClick={handleEditClick} className={styles.image}>
-                <img src={card.avatarImageUrl} alt="Avatar" />
-              </div>
+              <Link to={`/Edit/${card.id}`} state={{ card: card }}>
+                <img
+                  className={styles.avatarpicture}
+                  src={card.avatarImageUrl}
+                  alt="Avatar"
+                />
+              </Link>
+
               <div className={styles["box-infor"]}>
-                <div onClick={handleEditClick} className={styles.information}>
+                <div className={styles.information}>
                   <div className={styles.fullname}>{card.name}</div>
                   <div className={styles.date}>{date} (day create)</div>
                 </div>
@@ -402,12 +431,22 @@ function Button() {
                 </div>
               </div>
             </div>
-            <div onClick={handleEditClick} className={styles.text}>
+
+            <Link
+              className={styles.cardDecription}
+              to={`/Edit/${card.id}`}
+              state={{ card: card }}
+            >
               {card.description}
-            </div>
-            <div onClick={handleEditClick} className={styles.img}>
-              <img src={card.pictureImageUrl} alt="" />
-            </div>
+            </Link>
+
+            <Link to={`/Edit/${card.id}`} state={{ card: card }}>
+              <img
+                className={styles.picture}
+                src={card.pictureImageUrl}
+                alt=""
+              />
+            </Link>
           </div>
         ))}
       </div>

@@ -405,9 +405,11 @@ h2 {
 }
 .head svg {
   margin-top: 10px;
+  cursor: pointer;
 }
 .head .upload {
   margin-top: 10px;
+  cursor: pointer;
 }
 .name {
   margin-top: 10px;
@@ -425,4 +427,25 @@ h2 {
 }
 .errorLabel {
   color: red;
+}
+.picture {
+  height: 180px;
+  width: 310px;
+}
+.text div {
+  text-decoration: none;
+}
+.avatarpicture {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+.cardDecription {
+  text-decoration: none;
+  text-align: left;
+  font: normal normal normal 15px/20px Segoe UI;
+  letter-spacing: 0px;
+  color: #000000;
+  opacity: 1;
 }

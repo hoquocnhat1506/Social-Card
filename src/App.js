@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<Button />} />
         <Route path="/NotFound" element={<PageNotFound />} />
         <Route path="/Delete" element={<Delete />} />
-        <Route path="/Edit" element={<EditItem />} />
+        <Route path="/Edit/:id" element={<EditItem />} />
         <Route path="/ListCard" element={<ListCard />} />
       </Routes>
     </Router>

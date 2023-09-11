@@ -106,3 +106,12 @@
 .errorBoxInput {
   border-color: red;
 }
+.image img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+.card-image-main img {
+  width: 800px;
+  height: 350px;
+}

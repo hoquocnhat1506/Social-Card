@@ -1,8 +1,11 @@
 import styles from "./styles.module.css";
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function EditItem() {
-  // Initialize state variables with local storage values or default values
+  const location = useLocation();
+  const card = location.state.card;
+
   const [count, setCount] = useState(() => {
     const storedCount = localStorage.getItem("count");
     return storedCount ? parseInt(storedCount) : 1;
@@ -15,7 +18,7 @@ function EditItem() {
 
   const [inputError, setInputError] = useState(() => {
     const storedInputError = localStorage.getItem("inputError");
-    return storedInputError === "true"; // Convert the string to a boolean
+    return storedInputError === "true";
   });
 
   const [comments, setComments] = useState(() => {
@@ -29,25 +32,25 @@ function EditItem() {
   });
 
   // Update local storage whenever state variables change
-  useEffect(() => {
-    localStorage.setItem("count", count.toString());
-  }, [count]);
+  // useEffect(() => {
+  //   localStorage.setItem("count", count.toString());
+  // }, [count]);
 
-  useEffect(() => {
-    localStorage.setItem("comment", comment);
-  }, [comment]);
+  // useEffect(() => {
+  //   localStorage.setItem("comment", comment);
+  // }, [comment]);
 
-  useEffect(() => {
-    localStorage.setItem("inputError", inputError.toString());
-  }, [inputError]);
+  // useEffect(() => {
+  //   localStorage.setItem("inputError", inputError.toString());
+  // }, [inputError]);
 
-  useEffect(() => {
-    localStorage.setItem("comments", JSON.stringify(comments));
-  }, [comments]);
+  // useEffect(() => {
+  //   localStorage.setItem("comments", JSON.stringify(comments));
+  // }, [comments]);
 
-  useEffect(() => {
-    localStorage.setItem("messageCount", messageCount.toString());
-  }, [messageCount]);
+  // useEffect(() => {
+  //   localStorage.setItem("messageCount", messageCount.toString());
+  // }, [messageCount]);
 
   const increaseCount = () => {
     setCount(count + 1);
@@ -74,7 +77,7 @@ function EditItem() {
 
   const handleInputKeyPress = (e) => {
     if (e.key === "Enter") {
-      // Prevent the default behavior of the "Enter" key (e.g., form submission)
+      // Prevent the default behavior of the "Enter" key
       e.preventDefault();
       // Call the handlePostClick function to submit the comment
       handlePostClick();
@@ -96,36 +99,25 @@ function EditItem() {
           <div className={styles.content}>
             <div className={styles["card-main"]}>
               <div className={styles.image}>
-                <img src="image/Dog.svg" alt="" />
+                <img src={card.avatarImageUrl} alt="" />
               </div>
               <div className={styles["card-name"]}>
-                <div className={styles.name}>Binance</div>
-                <div className={styles.date}>22/04/2021 (day create)</div>
+                <div className={styles.name}>{card.name}</div>
+                <div className={styles.date}>{date} (day create)</div>
               </div>
             </div>
 
-            <div className={styles["card-text"]}>
-              It is a long established fact that a reader will be distracted by
-              the readable content of a page when looking at its layout. The
-              point of using Lorem Ipsum is that it has a more- or-less normal
-              distribution of letters, as opposed to using 'Content here,
-              content here', making it look like readable English. Many desktop
-              publishing packages and web page editors now use Lorem Ipsum as
-              their default model text, and a search for 'lorem ipsum' will
-              uncover many web sites still in their infancy. Various versions
-              have evolved over the years, sometimes by accident, sometimes on
-              purpose (injected humour and the like).
-            </div>
+            <div className={styles["card-text"]}>{card.description}</div>
             <div className={styles["card-image-main"]}>
-              <img src="image/BackGround.png" alt="" />
+              <img src={card.pictureImageUrl} alt="" />
             </div>
             <div className={styles["icoin-detail"]}>
               <div className={styles["icoin-tym"]}>
-                <img onClick={increaseCount} src="image/Heart.svg" alt="" />{" "}
+                <img onClick={increaseCount} src="image/Heart.svg" alt="tym" />
                 {count}
               </div>
               <div className={styles["icoin-message"]}>
-                <img src="image/Message.svg" alt="" />
+                <img src="image/Message.svg" alt="cmt" />
                 <div>{messageCount}</div>
               </div>
             </div>
