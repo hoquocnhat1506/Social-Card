@@ -1,15 +1,13 @@
 import styles from "./styles.module.css";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import Heart from "../../assets/imgs/Heart.svg";
+import Message from "../../assets/imgs/Message.svg";
+import { v4 as uuidv4 } from "uuid";
 
 function EditItem() {
   const location = useLocation();
   const card = location.state.card;
-
-  const [count, setCount] = useState(() => {
-    const storedCount = localStorage.getItem("count");
-    return storedCount ? parseInt(storedCount) : 1;
-  });
 
   const [comment, setComment] = useState(() => {
     const storedComment = localStorage.getItem("comment");
@@ -26,34 +24,59 @@ function EditItem() {
     return storedComments ? JSON.parse(storedComments) : [];
   });
 
-  const [messageCount, setMessageCount] = useState(() => {
-    const storedMessageCount = localStorage.getItem("messageCount");
-    return storedMessageCount ? parseInt(storedMessageCount) : 0;
+  const [messageCount, setMessageCount] = useState(0);
+  if (!card.id) {
+    card.id = uuidv4();
+  }
+  const cardId = card.id;
+  const [cardHeartInitialized, setCardHeartInitialized] = useState(false);
+
+  const [cardHeart, setCardHeart] = useState(() => {
+    const storedCardHeart = localStorage.getItem(`cardHeart_${cardId}`);
+    if (storedCardHeart !== null) {
+      setCardHeartInitialized(true);
+      return parseInt(storedCardHeart);
+    }
+    return card.Heart;
   });
 
-  // Update local storage whenever state variables change
-  // useEffect(() => {
-  //   localStorage.setItem("count", count.toString());
-  // }, [count]);
+  // Initialize cardHeart when the component mounts
+  useEffect(() => {
+    if (!cardHeartInitialized) {
+      const storedCardHeart = localStorage.getItem(`cardHeart_${cardId}`);
+      if (storedCardHeart !== null) {
+        setCardHeart(parseInt(storedCardHeart));
+      }
+    }
+  }, [cardId, cardHeartInitialized]);
 
-  // useEffect(() => {
-  //   localStorage.setItem("comment", comment);
-  // }, [comment]);
+  // Update local storage when state variables change
+  useEffect(() => {
+    localStorage.setItem("comment", comment);
+  }, [comment]);
 
-  // useEffect(() => {
-  //   localStorage.setItem("inputError", inputError.toString());
-  // }, [inputError]);
+  useEffect(() => {
+    localStorage.setItem("inputError", inputError.toString());
+  }, [inputError]);
 
-  // useEffect(() => {
-  //   localStorage.setItem("comments", JSON.stringify(comments));
-  // }, [comments]);
+  useEffect(() => {
+    localStorage.setItem("comments", JSON.stringify(comments));
+    // Update messageCount when comments change
+    setMessageCount(comments.length);
+  }, [comments]);
 
-  // useEffect(() => {
-  //   localStorage.setItem("messageCount", messageCount.toString());
-  // }, [messageCount]);
+  useEffect(() => {
+    localStorage.setItem("messageCount", messageCount.toString());
+  }, [messageCount]);
 
   const increaseCount = () => {
-    setCount(count + 1);
+    const updatedCardHeart = cardHeart + 1;
+    const updatedCard = { ...card, Heart: updatedCardHeart };
+    location.state.card = updatedCard;
+    localStorage.setItem(`cardHeart_${cardId}`, updatedCardHeart.toString());
+
+    // Cập nhật giá trị hiển thị
+    setCardHeart(updatedCardHeart);
   };
 
   const handleInputChange = (e) => {
@@ -63,23 +86,17 @@ function EditItem() {
 
   const handlePostClick = () => {
     if (comment.trim() === "") {
-      setInputError(true); // Set inputError to true when comment is empty
+      setInputError(true);
     } else {
-      // Add the new comment to the comments state
       setComments([...comments, comment]);
-      // Increment the message count
-      setMessageCount(messageCount + 1);
-      // Reset the input and input error after posting
       setComment("");
-      setInputError(false); // Set inputError back to false when successfully posted
+      setInputError(false);
     }
   };
 
   const handleInputKeyPress = (e) => {
     if (e.key === "Enter") {
-      // Prevent the default behavior of the "Enter" key
       e.preventDefault();
-      // Call the handlePostClick function to submit the comment
       handlePostClick();
     }
   };
@@ -113,11 +130,11 @@ function EditItem() {
             </div>
             <div className={styles["icoin-detail"]}>
               <div className={styles["icoin-tym"]}>
-                <img onClick={increaseCount} src="image/Heart.svg" alt="tym" />
-                {count}
+                <img onClick={increaseCount} src={Heart} alt="tym" />
+                {cardHeart}
               </div>
               <div className={styles["icoin-message"]}>
-                <img src="image/Message.svg" alt="cmt" />
+                <img src={Message} alt="cmt" />
                 <div>{messageCount}</div>
               </div>
             </div>
@@ -136,7 +153,7 @@ function EditItem() {
                 <input
                   className={
                     inputError
-                      ? `${styles.boxinput} ${styles.errorBoxInput}` // Add the errorBoxInput class
+                      ? `${styles.boxinput} ${styles.errorBoxInput}`
                       : styles.boxinput
                   }
                   type="text"

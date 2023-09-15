@@ -85,6 +85,8 @@ function Button() {
       description: data.notice2,
       avatarImageUrl: file1,
       pictureImageUrl: file2,
+      Heart: 0,
+      Comment: 0,
     };
     const updatedCards = [...cards, newCard];
     setCards(updatedCards);
@@ -129,22 +131,23 @@ function Button() {
   const [isFileSelectedAvatar, setIsFileSelectedAvatar] = useState(false);
   const [isFileSelectedImage, setIsFileSelectedImage] = useState(false);
 
-  function handleFile1Change(e) {
+  const handleFile1Change = (e) => {
     if (e.target.files.length > 0) {
       setIsFileSelectedAvatar(true);
+      setFile1(URL.createObjectURL(e.target.files[0]));
     } else {
       setIsFileSelectedAvatar(false);
+      setFile1("");
     }
-    console.log("handle file 1: ", e.target.files[0]);
-    setFile1(URL.createObjectURL(e.target.files[0]));
-    setIsFileSelectedAvatar(true);
-  }
+  };
 
   function handleFile2Change(e) {
     if (e.target.files.length > 0) {
       setIsFileSelectedImage(true);
+      setFile2(URL.createObjectURL(e.target.files[0]));
     } else {
       setIsFileSelectedImage(false);
+      setFile1("");
     }
     console.log("handle file 2: ", e.target.files[0]);
     setFile2(URL.createObjectURL(e.target.files[0]));
@@ -250,7 +253,9 @@ function Button() {
                         fill="#064ebc"
                       />
                     </svg>
-                    <div className={styles.upload}>Upload image</div>
+                    <div className={styles.upload}>
+                      {file1 ? file1 : "Upload image"}
+                    </div>
                   </div>
                 </div>
                 <div
@@ -326,10 +331,13 @@ function Button() {
                       fill="#064ebc"
                     />
                   </svg>
-                  <div className={styles.upload}>Upload image</div>
+                  <div className={styles.upload}>
+                    {file2 ? file2 : "Upload image"}
+                  </div>
                 </div>
                 <div className={styles["button-form"]}>
                   <button type="submit">Save</button>
+                  <img src="image/Heart.svg" alt="" />
                   <button onClick={closeModal}>Cancel</button>
                 </div>
               </form>
@@ -499,7 +507,9 @@ function Button() {
                       fill="#064ebc"
                     />
                   </svg>
-                  <div className={styles.uploads}>Upload image</div>
+                  <div className={styles.uploads}>
+                    {file1 ? file1 : "Upload image"}
+                  </div>
                 </div>
                 <div
                   className={
@@ -554,7 +564,9 @@ function Button() {
                       fill="#064ebc"
                     />
                   </svg>
-                  <div className={styles.upload}>Upload image</div>
+                  <div className={styles.upload}>
+                    {file2 ? file2 : "Upload image"}
+                  </div>
                 </div>
               </div>
               <div className={styles["button-form"]}>
