@@ -9,30 +9,32 @@ function EditItem() {
   const location = useLocation();
   const card = location.state.card;
 
+  // Kiểm tra và tạo card.id nếu không tồn tại
+  if (!card.id) {
+    card.id = uuidv4();
+  }
+
   const [comment, setComment] = useState(() => {
-    const storedComment = localStorage.getItem("comment");
+    const storedComment = localStorage.getItem(`comment_${card.id}`);
     return storedComment || "";
   });
 
   const [inputError, setInputError] = useState(() => {
-    const storedInputError = localStorage.getItem("inputError");
+    const storedInputError = localStorage.getItem(`inputError_${card.id}`);
     return storedInputError === "true";
   });
 
   const [comments, setComments] = useState(() => {
-    const storedComments = localStorage.getItem("comments");
+    const storedComments = localStorage.getItem(`comments_${card.id}`);
     return storedComments ? JSON.parse(storedComments) : [];
   });
 
   const [messageCount, setMessageCount] = useState(0);
-  if (!card.id) {
-    card.id = uuidv4();
-  }
-  const cardId = card.id;
+
   const [cardHeartInitialized, setCardHeartInitialized] = useState(false);
 
   const [cardHeart, setCardHeart] = useState(() => {
-    const storedCardHeart = localStorage.getItem(`cardHeart_${cardId}`);
+    const storedCardHeart = localStorage.getItem(`cardHeart_${card.id}`);
     if (storedCardHeart !== null) {
       setCardHeartInitialized(true);
       return parseInt(storedCardHeart);
@@ -40,42 +42,33 @@ function EditItem() {
     return card.Heart;
   });
 
-  // Initialize cardHeart when the component mounts
+  // Cập nhật messageCount khi comments thay đổi
   useEffect(() => {
-    if (!cardHeartInitialized) {
-      const storedCardHeart = localStorage.getItem(`cardHeart_${cardId}`);
-      if (storedCardHeart !== null) {
-        setCardHeart(parseInt(storedCardHeart));
-      }
-    }
-  }, [cardId, cardHeartInitialized]);
-
-  // Update local storage when state variables change
-  useEffect(() => {
-    localStorage.setItem("comment", comment);
-  }, [comment]);
-
-  useEffect(() => {
-    localStorage.setItem("inputError", inputError.toString());
-  }, [inputError]);
-
-  useEffect(() => {
-    localStorage.setItem("comments", JSON.stringify(comments));
-    // Update messageCount when comments change
     setMessageCount(comments.length);
   }, [comments]);
 
+  // Cập nhật local storage khi state thay đổi
   useEffect(() => {
-    localStorage.setItem("messageCount", messageCount.toString());
-  }, [messageCount]);
+    localStorage.setItem(`comment_${card.id}`, comment);
+  }, [comment]);
+
+  useEffect(() => {
+    localStorage.setItem(`inputError_${card.id}`, inputError.toString());
+  }, [inputError]);
+
+  useEffect(() => {
+    localStorage.setItem(`comments_${card.id}`, JSON.stringify(comments));
+  }, [comments]);
+
+  useEffect(() => {
+    localStorage.setItem(`cardHeart_${card.id}`, cardHeart.toString());
+  }, [cardHeart]);
 
   const increaseCount = () => {
     const updatedCardHeart = cardHeart + 1;
     const updatedCard = { ...card, Heart: updatedCardHeart };
     location.state.card = updatedCard;
-    localStorage.setItem(`cardHeart_${cardId}`, updatedCardHeart.toString());
-
-    // Cập nhật giá trị hiển thị
+    localStorage.setItem(`cardHeart_${card.id}`, updatedCardHeart.toString());
     setCardHeart(updatedCardHeart);
   };
 
