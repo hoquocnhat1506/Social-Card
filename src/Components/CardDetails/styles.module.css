@@ -36,6 +36,7 @@
 .icoin-tym img {
   margin-right: 5px;
   cursor: pointer;
+  object-fit: none;
 }
 .icoin-message img {
   margin-right: 7px;

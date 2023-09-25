@@ -17,14 +17,11 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     padding: "0",
+    border: "unset",
   },
 };
 
 function Button() {
-  // const navigate = useNavigate();
-  // const handleEditClick = () => {
-  //   navigate("/Edit");
-  // };
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedAvatar1PictureFiles] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -128,30 +125,28 @@ function Button() {
   const [file1, setFile1] = useState("");
   const [file2, setFile2] = useState("");
 
-  const [isFileSelectedAvatar, setIsFileSelectedAvatar] = useState(false);
-  const [isFileSelectedImage, setIsFileSelectedImage] = useState(false);
-
   const handleFile1Change = (e) => {
-    if (e.target.files.length > 0) {
-      setIsFileSelectedAvatar(true);
+    if (e.target.files[0]) {
+      setFile1(true);
       setFile1(URL.createObjectURL(e.target.files[0]));
     } else {
-      setIsFileSelectedAvatar(false);
+      setFile1(false);
+      setFile1(URL.createObjectURL(e.target.files[0]));
       setFile1("");
     }
+    console.log("handle file 1: ", e.target.files);
   };
 
   function handleFile2Change(e) {
     if (e.target.files.length > 0) {
-      setIsFileSelectedImage(true);
+      setFile2(true);
       setFile2(URL.createObjectURL(e.target.files[0]));
     } else {
-      setIsFileSelectedImage(false);
-      setFile1("");
+      setFile2(false);
+      setFile2(URL.createObjectURL(e.target.files[0]));
+      setFile2("");
     }
     console.log("handle file 2: ", e.target.files[0]);
-    setFile2(URL.createObjectURL(e.target.files[0]));
-    setIsFileSelectedImage(true);
   }
 
   //sreach
@@ -217,9 +212,7 @@ function Button() {
                 <div className={styles.head}>
                   <div
                     className={
-                      isFileSelectedAvatar
-                        ? styles.validLabel
-                        : styles.invalidLabel
+                      errors.file1 ? styles.invalidLabel : styles.validLabel
                     }
                   >
                     <div className={styles.name}>
@@ -228,15 +221,15 @@ function Button() {
 
                     <input
                       type="file"
-                      id="avatarInput"
+                      id="file1"
                       style={{
                         marginTop: "10px",
                         opacity: "0",
                         zIndex: "2",
                         cursor: "pointer",
                       }}
+                      {...register("file1", { required: true })}
                       onChange={handleFile1Change}
-                      required
                     />
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -246,9 +239,7 @@ function Button() {
                     >
                       <path
                         className={
-                          isFileSelectedAvatar
-                            ? styles.validLabel
-                            : styles.invalidLabel
+                          errors.file1 ? styles.invalidLabel : styles.validLabel
                         }
                         id="upload-solid"
                         d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
@@ -297,23 +288,21 @@ function Button() {
                 </div>
                 <div
                   className={
-                    isFileSelectedImage
-                      ? styles.validLabel
-                      : styles.invalidLabel
+                    errors.file2 ? styles.invalidLabel : styles.validLabel
                   }
                 >
                   <div>Image</div>
                   <input
                     type="file"
-                    id="avatar1Input"
+                    id="file2 "
                     style={{
                       opacity: "0",
                       cursor: "pointer",
                       zIndex: "2",
                       marginLeft: "57px ",
                     }}
+                    {...register("file2", { required: true })}
                     onChange={handleFile2Change}
-                    required
                   />
 
                   <svg
@@ -324,9 +313,7 @@ function Button() {
                   >
                     <path
                       className={
-                        isFileSelectedImage
-                          ? styles.validLabel
-                          : styles.invalidLabel
+                        errors.file2 ? styles.invalidLabel : styles.validLabel
                       }
                       id="upload-solid"
                       d="M11.562,15.072H8.438a.935.935,0,0,1-.938-.937V7.572H4.074A.78.78,0,0,1,3.523,6.24L9.465.295a.757.757,0,0,1,1.066,0L16.477,6.24a.78.78,0,0,1-.551,1.332H12.5v6.563A.935.935,0,0,1,11.562,15.072ZM20,14.76v4.375a.935.935,0,0,1-.937.938H.937A.935.935,0,0,1,0,19.135V14.76a.935.935,0,0,1,.937-.937H6.25v.313a2.189,2.189,0,0,0,2.188,2.187h3.125a2.189,2.189,0,0,0,2.188-2.187v-.312h5.313A.935.935,0,0,1,20,14.76ZM15.156,18.2a.781.781,0,1,0-.781.781A.784.784,0,0,0,15.156,18.2Zm2.5,0a.781.781,0,1,0-.781.781A.784.784,0,0,0,17.656,18.2Z"
@@ -472,7 +459,7 @@ function Button() {
         >
           <div className={styles["box-modal"]}>
             <h2>Edit card</h2>
-            <form onSubmit={handleEditSubmit}>
+            <form className={styles.form} onSubmit={handleEditSubmit}>
               <div className={styles.editcard}>
                 <div
                   className={

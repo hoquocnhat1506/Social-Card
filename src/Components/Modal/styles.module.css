@@ -21,6 +21,10 @@ button {
 
 .box-modal {
   padding: 25px 45px;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #d2cbcb;
+  border-radius: 10px;
+  opacity: 1;
 }
 
 .box-modal h2 {
@@ -208,6 +212,10 @@ svg {
 
 .button-form button:nth-child(2) {
   padding: 13px 18px;
+  background: #d9d9d9 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 10px;
+  opacity: 1;
 }
 
 .button-form {
@@ -250,7 +258,7 @@ svg {
   width: 100%;
 }
 .image {
-  margin-right: 15px;
+  /* margin-right: 15px; */
 }
 .information {
   display: flex;
@@ -276,7 +284,15 @@ h2 {
 }
 
 .box-title {
-  padding: 25px 45px;
+  padding: 25px 43px;
+  width: 425px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #d2cbcb;
+  border-radius: 10px;
+  opacity: 1;
 }
 
 .image {
@@ -288,11 +304,11 @@ h2 {
 .image img {
   width: 50px;
   height: 50px;
+  object-fit: contain;
 }
 
 .notice {
   text-align: center;
-  margin-bottom: 20px;
 }
 
 .button-form button {
@@ -339,7 +355,7 @@ h2 {
 }
 
 .image {
-  margin-right: 15px;
+  /* margin-right: 15px; */
 }
 
 .box-infor {
@@ -435,6 +451,10 @@ h2 {
   cursor: pointer;
   margin-top: 10px;
   margin-left: 31px;
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .errorLabel {
   color: red;
@@ -459,4 +479,7 @@ h2 {
   letter-spacing: 0px;
   color: #000000;
   opacity: 1;
+}
+.form {
+  gap: 0;
 }
