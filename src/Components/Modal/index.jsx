@@ -156,9 +156,12 @@ function Button() {
 
   //sreach
   const [searchTerm, setSearchTerm] = useState("");
-  const filteredCards = cards.filter((card) =>
-    card.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCards =
+    cards &&
+    cards.filter(
+      (card) =>
+        card.name && card.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   //edit
   const [editingIndex, setEditingIndex] = useState(null);

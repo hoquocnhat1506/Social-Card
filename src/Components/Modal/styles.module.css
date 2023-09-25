@@ -90,7 +90,10 @@ button {
   left: 147px;
   margin-right: 0;
   cursor: pointer;
-  /* margin-top: 10px; */
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .avatar input,
@@ -414,6 +417,10 @@ h2 {
 .head .upload {
   margin-top: 10px;
   cursor: pointer;
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .name {
   margin-top: 10px;
