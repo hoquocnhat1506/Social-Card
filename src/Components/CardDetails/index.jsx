@@ -42,27 +42,15 @@ function EditItem() {
     return card.Heart;
   });
 
-  // Cập nhật messageCount khi comments thay đổi
   useEffect(() => {
+    // Cập nhật messageCount khi comments thay đổi
     setMessageCount(comments.length);
-  }, [comments]);
 
-  // Cập nhật local storage khi state thay đổi
-  useEffect(() => {
+    // Cập nhật local storage khi các state thay đổi
     localStorage.setItem(`comment_${card.id}`, comment);
-  }, [comment]);
-
-  useEffect(() => {
-    localStorage.setItem(`inputError_${card.id}`, inputError.toString());
-  }, [inputError]);
-
-  useEffect(() => {
     localStorage.setItem(`comments_${card.id}`, JSON.stringify(comments));
-  }, [comments]);
-
-  useEffect(() => {
     localStorage.setItem(`cardHeart_${card.id}`, cardHeart.toString());
-  }, [cardHeart]);
+  }, [comment, comments, cardHeart]);
 
   const increaseCount = () => {
     const updatedCardHeart = cardHeart + 1;

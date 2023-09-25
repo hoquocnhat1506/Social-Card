@@ -100,11 +100,12 @@
   margin-left: 183px;
 }
 .boxinput {
-  border: 1px solid black;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
 }
 
 .errorBoxInput {
-  border-color: red;
+  border: 1px solid #f3115e !important;
 }
 .image img {
   height: 50px;
