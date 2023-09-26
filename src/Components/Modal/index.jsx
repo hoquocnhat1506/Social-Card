@@ -71,6 +71,7 @@ function Button() {
   //localstorage and validate
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -88,6 +89,7 @@ function Button() {
     const updatedCards = [...cards, newCard];
     setCards(updatedCards);
     localStorage.setItem("cards", JSON.stringify(updatedCards));
+    reset();
     closeModal();
   };
 
